@@ -1,0 +1,44 @@
+import React from 'react'
+import KanbanColumn from './KanbanColumn'
+
+const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
+  const renderKanbanColumn = (status) => {
+    return (
+      <KanbanColumn
+        status={status}
+        tasks={initialTasks.filter((task) => task.status === status)}
+        setInitialTasks={setInitialTasks}
+        initialTasks={initialTasks}
+      />
+    )
+  }
+  return (
+    <div>
+      <h1 className="font-semibold text-3xl mt-3">Kanban Board</h1>
+      <p className="mt-1 mb-2 text-gray-500 max-w-2xl text-sm">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni
+        laudantium nesciunt id fugiat quaerat, cum nemo praesentium sapiente
+        modi in quam esse temporibus voluptas voluptates saepe beatae quidem
+        quae totam?
+      </p>
+      <div className="font-inter p-1 flex mb-4 text-gray-500 justify-end text-sm font-medium font-inter border-b border-solid border-gray-300">
+        <button className="tracking-wide font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">
+          Sort
+        </button>
+        <button className="tracking-wide font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">
+          Filter
+        </button>
+        <button className="tracking-wider font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">
+          Search Icon
+        </button>
+      </div>
+      <div className="flex gap-5">
+        {renderKanbanColumn('To Do')}
+        {renderKanbanColumn('In Progress')}
+        {renderKanbanColumn('Done')}
+      </div>
+    </div>
+  )
+}
+
+export default KanbanBoard
