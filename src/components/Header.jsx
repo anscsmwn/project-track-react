@@ -9,7 +9,9 @@ const Header = () => {
   return (
     <header className="px-10 py-4 flex justify-between items-center">
       <p>
-        <span className="text-xl font-semibold">Thesis Track </span>
+        <span className="text-xl font-semibold">
+          Undergraduate Thesis Track{' '}
+        </span>
       </p>
       <div className="profile-container">
         <div onClick={toggleDropdown} className="profile-icon">

@@ -33,7 +33,7 @@ const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
           <img src={searchIcon} alt="search" className="w-4 h-4 opacity-60" />
         </button>
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-5 overflow-auto">
         {renderKanbanColumn('To Do')}
         {renderKanbanColumn('In Progress')}
         {renderKanbanColumn('Done')}

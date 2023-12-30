@@ -3,6 +3,7 @@ import KanbanCard from './KanbanCard'
 import circleDot from '../../assets/circle-dot.svg'
 import circleProgress from '../../assets/circle-progress.svg'
 import circleDone from '../../assets/circle-done.svg'
+import plusIcon from '../../assets/plus.svg'
 
 const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
   const [isAdding, setIsAdding] = React.useState(false)
@@ -24,7 +25,7 @@ const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
   }
 
   return (
-    <div className="w-full max-w-72">
+    <div className="w-full max-w-72 min-w-max">
       <div className="text-slate-700 flex items-center justify-between gap-2 mb-2 text-sm">
         <div className="flex items-center gap-2">
           {status === 'To Do' && (
@@ -83,6 +84,7 @@ const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
             onClick={() => setIsAdding(true)}
             className="w-full flex items-center p-2 hover:bg-gray-100 cursor-pointer transition-all rounded-md gap-2 text-sm text-gray-400"
           >
+            <img src={plusIcon} alt="plus" className="w-3 h-3 opacity-45" />
             <p>New</p>
           </button>
         )}
