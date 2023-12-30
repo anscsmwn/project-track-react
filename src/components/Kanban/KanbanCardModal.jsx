@@ -6,6 +6,7 @@ import TodoListSection from '../TodoListSection'
 import checkIcon from '../../assets/check.svg'
 import dotIcon from '../../assets/dot.svg'
 import DescriptionSection from '../DescriptionSection'
+import closeIcon from '../../assets/close.svg'
 
 const KanbanCardModal = ({
   task,
@@ -24,10 +25,13 @@ const KanbanCardModal = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-5 pl-3 rounded-md md:w-1/2 mx-2 h-[600px] overflow-auto"
+        className="bg-white p-5 pl-3 rounded-md md:w-1/2 mx-2 h-[500px] sm:h-[600px] overflow-auto"
       >
-        <div className="flex gap-2 items-center text-3xl">
+        <div className="flex gap-2 items-center justify-between text-3xl">
           <h3 className="font-semibold">{task.title}</h3>
+          <button onClick={() => setIsModalOpen(false)}>
+            <img src={closeIcon} alt="close" className="w-4 h-4" />
+          </button>
         </div>
         <div className="text-sm mt-2">
           <div className="py-1 flex gap-5 items-center">

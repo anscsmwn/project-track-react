@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import tripleDot from '../assets/triple-dot.svg'
 function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
   const [showMenu, setShowMenu] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -63,7 +63,9 @@ function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
         <button
           onClick={handleToggleMenu}
           className="group-hover:opacity-100 opacity-0 transition-all duration-300 cursor-pointer text-gray-400 hover:text-gray-600"
-        ></button>
+        >
+          <img src={tripleDot} alt="triple dot" className="w-3 h-3" />
+        </button>
         {showMenu && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             <ul className="py-1 text-gray-700">

@@ -7,7 +7,7 @@ const Header = () => {
     setIsDropdownVisible(!isDropdownVisible)
   }
   return (
-    <header className="px-10 py-4 flex justify-between items-center">
+    <header className="px-5 sm:px-10 py-4 flex justify-between items-center">
       <p>
         <span className="text-xl font-semibold">
           Undergraduate Thesis Track{' '}

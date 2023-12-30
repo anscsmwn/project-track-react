@@ -83,7 +83,7 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
               setInitialTasks(initialTasks.filter((t) => t.id !== task.id))
             }}
           >
-            Hapus
+            Delete
           </button>
         </div>
       </div>
