@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckboxList from './CheckboxList'
+import CheckboxList from './TodoList'
 
 const ProblemSection = () => {
   return (

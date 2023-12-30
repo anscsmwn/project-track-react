@@ -1,5 +1,6 @@
 import React from 'react'
 import KanbanCardModal from './KanbanCardModal'
+import document from '../../assets/document.svg'
 
 const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   const [isEditing, setIsEditing] = React.useState(false)
@@ -26,33 +27,36 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
         className="group p-2 my-1 w-full rounded-md flex justify-between shadow-sm border border-solid border-zinc-300 hover:bg-gray-100 cursor-pointer transition-all duration-500"
       >
         {isEditing ? (
-          <input
-            type="text"
-            defaultValue={task.title}
-            autoFocus
-            onChange={(event) => {
-              setInitialTasks(
-                initialTasks.map((t) => {
-                  if (t.id === task.id) {
-                    return {
-                      ...t,
-                      title: event.target.value,
+          <div className="flex items-center gap-1">
+            <img src={document} alt="document" className="w-4 h-4" />
+            <input
+              type="text"
+              defaultValue={task.title}
+              autoFocus
+              onChange={(event) => {
+                setInitialTasks(
+                  initialTasks.map((t) => {
+                    if (t.id === task.id) {
+                      return {
+                        ...t,
+                        title: event.target.value,
+                      }
                     }
-                  }
-                  return t
-                }),
-              )
-            }}
-            onBlur={() => {
-              setIsEditing(false)
-            }}
-            onKeyUp={(event) => {
-              if (event.key === 'Enter') {
+                    return t
+                  }),
+                )
+              }}
+              onBlur={() => {
                 setIsEditing(false)
-              }
-            }}
-            className="w-full bg-transparent outline-none text-sm font-normal"
-          />
+              }}
+              onKeyUp={(event) => {
+                if (event.key === 'Enter') {
+                  setIsEditing(false)
+                }
+              }}
+              className="w-full bg-transparent outline-none text-sm font-normal"
+            />
+          </div>
         ) : (
           <span
             className={`text-sm font-normal text-slate-700 ${

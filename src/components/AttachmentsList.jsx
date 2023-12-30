@@ -20,7 +20,7 @@ const AttachmentsList = () => {
     }
   }
 
-  const deleteAttachment = (attachmentId: any) => {
+  const deleteAttachment = (attachmentId) => {
     setAttachments(
       attachments.filter((attachment) => attachment.id !== attachmentId),
     )

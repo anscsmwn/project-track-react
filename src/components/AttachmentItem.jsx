@@ -1,12 +1,6 @@
 import React from 'react'
 
-const AttachmentItem = ({
-  attachment,
-  deleteAttachment,
-}: {
-  attachment: { id: number; url: string }
-  deleteAttachment: (attachmentId: number) => void
-}) => {
+const AttachmentItem = ({ attachment, deleteAttachment }) => {
   return (
     <li className="flex justify-between items-center p-2 hover:bg-gray-100 rounded-md">
       <a

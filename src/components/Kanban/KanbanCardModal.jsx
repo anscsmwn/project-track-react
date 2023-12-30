@@ -3,6 +3,8 @@ import CommentSection from '../CommentSection'
 import AttachmentsList from '../AttachmentsList'
 import ProblemSection from '../ProblemSection'
 import TodoListSection from '../TodoListSection'
+import checkIcon from '../../assets/check.svg'
+import dotIcon from '../../assets/dot.svg'
 
 const KanbanCardModal = ({
   task,
@@ -38,8 +40,17 @@ const KanbanCardModal = ({
                 }}
                 className="bg-gray-300 px-1 pr-3 py-1 rounded-full flex justify-between items-center hover:opacity-95 cursor-pointer transition-all max-w-[200px]"
               >
-                <div className="flex gap-1 items-center">{task.status}</div>
-                {isStatusChanging && '✔'}
+                <div className="flex gap-1 items-center">
+                  <img src={dotIcon} alt="dot" className="w-4 h-4 opacity-40" />
+                  {task.status}
+                </div>
+                {isStatusChanging && (
+                  <img
+                    src={checkIcon}
+                    alt="check"
+                    className="ml-2 w-3 h-3 opacity-50"
+                  />
+                )}
               </p>
               <div className="">
                 {isStatusChanging && (
@@ -52,8 +63,13 @@ const KanbanCardModal = ({
                             handleStatusChange(status, task.id)
                             setIsStatusChanging(false)
                           }}
-                          className="bg-gray-300 px-1 pr-3 py-1 max-w-[200px] rounded-full flex gap-1 items-center hover:opacity-95 cursor-pointer transition-all"
+                          className="bg-gray-300 pl-1 pr-3 py-1 max-w-[200px] rounded-full flex gap-1 items-center hover:opacity-95 cursor-pointer transition-all"
                         >
+                          <img
+                            src={dotIcon}
+                            alt="dot"
+                            className="w-4 h-4 opacity-40"
+                          />
                           {status}
                         </button>
                       ))}

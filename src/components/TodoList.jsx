@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import TodoItem from './ItemTodo'
-const CheckboxList = () => {
+const TodoList = () => {
   const [tasks, setTasks] = useState([
     { id: 1, text: 'Learn React', completed: true },
     { id: 2, text: 'Learn TypeScript', completed: false },
@@ -16,11 +16,11 @@ const CheckboxList = () => {
     }
   }
 
-  const deleteTask = (taskId: number) => {
+  const deleteTask = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId))
   }
 
-  const toggleTaskCompletion = (taskId: number) => {
+  const toggleTaskCompletion = (taskId) => {
     setTasks(
       tasks.map((task) =>
         task.id === taskId ? { ...task, completed: !task.completed } : task,
@@ -28,7 +28,7 @@ const CheckboxList = () => {
     )
   }
 
-  const editTask = (task: { id: number; text: string; completed: boolean }) => {
+  const editTask = (task) => {
     setTasks(
       tasks.map((t) => (t.id === task.id ? { ...t, text: task.text } : t)),
     )
@@ -89,4 +89,4 @@ const CheckboxList = () => {
   )
 }
 
-export default CheckboxList
+export default TodoList

@@ -1,5 +1,6 @@
 import React from 'react'
 import KanbanColumn from './KanbanColumn'
+import searchIcon from '../../assets/search.svg'
 
 const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
   const renderKanbanColumn = (status) => {
@@ -29,7 +30,7 @@ const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
           Filter
         </button>
         <button className="tracking-wider font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">
-          Search Icon
+          <img src={searchIcon} alt="search" className="w-4 h-4 opacity-60" />
         </button>
       </div>
       <div className="flex gap-5">

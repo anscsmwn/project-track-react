@@ -1,16 +1,6 @@
 import React, { useState } from 'react'
 
-function TodoItem({
-  task,
-  toggleTaskCompletion,
-  editTask,
-  deleteTask,
-}: {
-  task: { id: number; text: string; completed: boolean }
-  toggleTaskCompletion: (taskId: number) => void
-  editTask: (task: { id: number; text: string; completed: boolean }) => void
-  deleteTask: (taskId: number) => void
-}) {
+function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
   const [showMenu, setShowMenu] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 

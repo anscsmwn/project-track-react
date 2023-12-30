@@ -1,5 +1,8 @@
 import React from 'react'
 import KanbanCard from './KanbanCard'
+import circleDot from '../../assets/circle-dot.svg'
+import circleProgress from '../../assets/circle-progress.svg'
+import circleDone from '../../assets/circle-done.svg'
 
 const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
   const [isAdding, setIsAdding] = React.useState(false)
@@ -22,8 +25,31 @@ const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
 
   return (
     <div className="w-full max-w-72">
-      <div className="text-slate-700 flex items-center gap-2 mb-2 text-sm">
-        <span className="font-semibold">{status}</span>
+      <div className="text-slate-700 flex items-center justify-between gap-2 mb-2 text-sm">
+        <div className="flex items-center gap-2">
+          {status === 'To Do' && (
+            <img
+              src={circleDot}
+              alt="circle dot"
+              className="w-4 h-4 opacity-70"
+            />
+          )}
+          {status === 'In Progress' && (
+            <img
+              src={circleProgress}
+              alt="circle progress"
+              className="w-4 h-4 opacity-70"
+            />
+          )}
+          {status === 'Done' && (
+            <img
+              src={circleDone}
+              alt="circle done"
+              className="w-4 h-4 opacity-70"
+            />
+          )}
+          <span className="font-semibold">{status}</span>
+        </div>
         <span className="opacity-40">{tasks.length}</span>
       </div>
       <div>

@@ -28,7 +28,7 @@ const CommentSection = () => {
     }
   }
 
-  const deleteComment = (commentId: number) => {
+  const deleteComment = (commentId) => {
     setComments(comments.filter((comment) => comment.id !== commentId))
   }
 
