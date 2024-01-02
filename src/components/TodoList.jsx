@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import TodoItem from './ItemTodo'
-const TodoList = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'Learn React', completed: true },
-    { id: 2, text: 'Learn TypeScript', completed: false },
-    { id: 3, text: 'Learn Next.js', completed: false },
-  ])
+const TodoList = ({ todos }) => {
+  const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
   const [isAddTask, setIsAddTask] = useState(false)
-
+  React.useEffect(() => {
+    if (todos !== undefined) {
+      console.log(todos)
+      setTasks(todos)
+    }
+  }, [todos])
   const addTask = () => {
     if (newTask.trim() !== '') {
       setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }])

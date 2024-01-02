@@ -1,30 +1,19 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import KanbanBoard from '../../components/Kanban/KanbanBoard'
+import supabase from '../../supabase/supabaseClient'
+import { getTasks } from '../../services/KanbanBoard'
 
 const Dashboard = () => {
-  const [initialTasks, setInitialTasks] = React.useState([
-    {
-      id: 1,
-      title: 'Learn React',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni laudantium nesciunt id fugiat quaerat, cum nemo praesentium sapiente modi in quam esse temporibus voluptas voluptates saepe beatae quidem quae tota',
-      status: 'To Do',
-    },
-    {
-      id: 2,
-      title: 'Learn TypeScript',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni laudantium nesciunt id fugiat quaerat, cum nemo praesentium sapiente modi in quam esse temporibus voluptas voluptates saepe beatae quidem quae tota',
-      status: 'To Do',
-    },
-    {
-      id: 3,
-      title: 'Learn Next.js',
-      description: 'Learn Next.js and its ecosystem',
-      status: 'In Progress',
-    },
-  ])
+  const [initialTasks, setInitialTasks] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchTasks = async () => {
+      const tasks = await getTasks(1)
+      setInitialTasks(tasks)
+    }
+    fetchTasks()
+  }, [])
 
   return (
     <>

@@ -7,6 +7,7 @@ import checkIcon from '../../assets/check.svg'
 import dotIcon from '../../assets/dot.svg'
 import DescriptionSection from '../DescriptionSection'
 import closeIcon from '../../assets/close.svg'
+import { getDetailTask } from '../../services/KanbanBoard'
 
 const KanbanCardModal = ({
   task,
@@ -16,6 +17,22 @@ const KanbanCardModal = ({
 }) => {
   if (!isModalOpen) return null
   const [isStatusChanging, setIsStatusChanging] = React.useState(false)
+  const [detailTask, setDetailTask] = React.useState({
+    comments: [],
+    attachments: [],
+    description: '',
+    problems: [],
+    todo: [],
+    title: '',
+    status: '',
+  })
+  React.useEffect(() => {
+    const getTaskDetail = async () => {
+      const response = await getDetailTask(task.id)
+      setDetailTask(response[0])
+    }
+    getTaskDetail()
+  }, [task])
   return (
     <div
       onClick={(e) => {
@@ -28,7 +45,7 @@ const KanbanCardModal = ({
         className="bg-white p-5 pl-3 rounded-md md:w-1/2 mx-2 h-[500px] sm:h-[600px] overflow-auto"
       >
         <div className="flex gap-2 items-center justify-between text-3xl">
-          <h3 className="font-semibold">{task.title}</h3>
+          <h3 className="font-semibold pl-2">{detailTask.title}</h3>
           <button onClick={() => setIsModalOpen(false)}>
             <img src={closeIcon} alt="close" className="w-4 h-4" />
           </button>
@@ -47,7 +64,7 @@ const KanbanCardModal = ({
               >
                 <div className="flex gap-1 items-center">
                   <img src={dotIcon} alt="dot" className="w-4 h-4 opacity-40" />
-                  {task.status}
+                  {detailTask.status}
                 </div>
                 {isStatusChanging && (
                   <img
@@ -92,8 +109,8 @@ const KanbanCardModal = ({
           </div>
         </div>
         <div className="text-sm space-y-2">
-          <DescriptionSection task={task} />
-          <TodoListSection />
+          <DescriptionSection task={detailTask} />
+          <TodoListSection todos={detailTask.todos} />
           <ProblemSection />
           <AttachmentsList />
           <div>

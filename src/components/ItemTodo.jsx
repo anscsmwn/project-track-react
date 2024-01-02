@@ -26,14 +26,14 @@ function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
-          checked={task.completed}
+          checked={task.check}
           onChange={() => toggleTaskCompletion(task.id)}
         />
         {isEditing ? (
           <>
             <input
               type="text"
-              value={task.text}
+              value={task.title}
               autoFocus
               onChange={(event) => {
                 editTask({
@@ -54,8 +54,8 @@ function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
             />
           </>
         ) : (
-          <label className={`${task.completed ? 'line-through' : ''}`}>
-            {task.text}
+          <label className={`${task.check ? 'line-through' : ''}`}>
+            {task.title}
           </label>
         )}
       </div>
