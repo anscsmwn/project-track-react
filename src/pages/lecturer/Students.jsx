@@ -66,7 +66,7 @@ const Students = () => {
                   <td className="p-5 text-left text-sm">{item.progress}%</td>
                   <td className="p-5 text-left text-sm">
                     <Link
-                      to={`/lecturer/students/${item.nim}`}
+                      to={`/lecturer/students/${item.nim}/kanban-board`}
                       target="_blank"
                       rel="noreferrer noopener"
                     >
