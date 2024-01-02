@@ -26,13 +26,20 @@ const KanbanCardModal = ({
     title: '',
     status: '',
   })
+  const [isLoading, setIsLoading] = React.useState(false)
   React.useEffect(() => {
     const getTaskDetail = async () => {
+      setIsLoading(true)
       const response = await getDetailTask(task.id)
       setDetailTask(response[0])
+      setIsLoading(false)
     }
     getTaskDetail()
   }, [task])
+  if (isLoading)
+    return (
+      <div className="fixed top-0 left-0 w-full h-full z-20 bg-black bg-opacity-50 flex items-center justify-center"></div>
+    )
   return (
     <div
       onClick={(e) => {
@@ -112,7 +119,7 @@ const KanbanCardModal = ({
           <DescriptionSection task={detailTask} />
           <TodoListSection todos={detailTask.todos} />
           <ProblemSection />
-          <AttachmentsList />
+          <AttachmentsList attachments={detailTask.attachments} />
           <div>
             <hr className="my-5 border-b border-solid border-gray-200" />
             <CommentSection />

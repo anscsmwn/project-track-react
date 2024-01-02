@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import supabase from '../../supabase/supabaseClient'
+import { getMyStudents } from '../../services/Student'
 
 const Students = () => {
   const students = [
@@ -14,15 +15,8 @@ const Students = () => {
   React.useEffect(() => {
     const lecturerId = 'd14235fa-073b-4e7c-9205-c065d754ab8d'
     const getStudents = async () => {
-      const { data: datas } = await supabase
-        .from('student_lecturer')
-        .select('*')
-        .eq('lecturer_id', lecturerId)
-      const student_ids = datas.map((data) => data.student_id)
-      const { data, error } = await supabase
-        .from('students')
-        .select('*')
-        .in('id', student_ids)
+      const response = await getMyStudents(lecturerId)
+      console.log(response)
     }
     getStudents()
   }, [])

@@ -1,6 +1,7 @@
 import React from 'react'
 import KanbanCardModal from './KanbanCardModal'
 import document from '../../assets/document.svg'
+import { deleteTask } from '../../services/KanbanBoard'
 
 const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   const [isEditing, setIsEditing] = React.useState(false)
@@ -78,9 +79,10 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
           </button>
           <button
             className="hover:text-slate-700 transition-all duration-300"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.stopPropagation()
               setInitialTasks(initialTasks.filter((t) => t.id !== task.id))
+              const response = await deleteTask(task.id)
             }}
           >
             Delete

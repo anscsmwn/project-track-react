@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import AttachmentItem from './AttachmentItem' // This is your modified component for attachments
-const AttachmentsList = () => {
-  const [attachments, setAttachments] = useState([
-    { id: 1, url: 'https://example.com/react_guide.pdf' },
-    { id: 2, url: 'https://example.com/typescript_cheatsheet.pdf' },
-    // More attachments...
-  ])
+const AttachmentsList = ({ attachments: attachmentItems }) => {
+  const [attachments, setAttachments] = useState(attachmentItems)
   const [newAttachmentUrl, setNewAttachmentUrl] = useState('')
   const [isAddingAttachment, setIsAddingAttachment] = useState(false)
 
