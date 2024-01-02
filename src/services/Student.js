@@ -12,7 +12,7 @@ export async function getMyStudents(lecturerId) {
 
   const { data: students, error: error2 } = await supabase
     .from('users')
-    .select(`*, students (title, progress)`)
+    .select(`*, students (title, progress, created_at)`)
     .in(
       'id',
       student_lecturer.map((item) => item.student_id),
