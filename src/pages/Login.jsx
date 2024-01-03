@@ -18,7 +18,20 @@ const Login = () => {
       // set up the response.data in localstorage
       localStorage.setItem('user', JSON.stringify(response.data))
       // redirect to dashboard
-      navigate('/dashboard')
+      const responseRole = await supabase
+        .from('user_role')
+        .select('*')
+        .eq('user_id', response.data.user.id)
+      const role = responseRole.data[0].role
+      const profile = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', response.data.user.id)
+      localStorage.setItem('profile', JSON.stringify(profile.data[0]))
+
+      if (role === 'lecturer') {
+        navigate('/lecturer/students')
+      }
     } catch (error) {
       alert(error.error_description || error.message)
     }

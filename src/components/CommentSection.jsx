@@ -1,29 +1,25 @@
 import React, { useState } from 'react'
+import { getFullName } from '../utils/utils'
+import { createCommentTask } from '../services/KanbanBoard'
 
-const CommentSection = () => {
-  const [comments, setComments] = useState([
-    // Pre-populate with example comment
-    {
-      id: 1,
-      author: 'Annas Casmawan Ahmad',
-      timestamp: 'Oct 31 at 1:39 PM',
-      content:
-        'Tabe pak, boleh saya meminta kredensial akses ke environment developmentnya Neosia? untuk melihat apa yang dapat saya kembangkan di sana. Terima kasih @aisprayogi1',
-      editable: false, // set to true for comments that can be edited by the user
-    },
-  ])
+const CommentSection = ({ taskId, comments: commentsData }) => {
+  const [comments, setComments] = useState([...commentsData])
   const [newComment, setNewComment] = useState('')
 
-  const postComment = () => {
+  const postComment = async () => {
     if (newComment.trim() !== '') {
       const newCommentObj = {
-        id: Date.now(),
-        author: 'Current User', // Replace with current user's name
+        author: getFullName(),
         timestamp: new Date().toLocaleString(),
         content: newComment,
-        editable: true,
       }
       setComments([...comments, newCommentObj])
+      await createCommentTask({
+        content: newComment,
+        author: getFullName(),
+        task_id: taskId,
+        timestamp: new Date().toLocaleString(),
+      })
       setNewComment('')
     }
   }
@@ -56,12 +52,6 @@ const CommentSection = () => {
             <div className="opacity-55 text-xs">{comment.timestamp}</div>
           </div>
           <div className="content">{comment.content}</div>
-          {comment.editable && (
-            <div className="actions">
-              <button onClick={() => {}}>Edit</button>
-              <button onClick={() => deleteComment(comment.id)}>Delete</button>
-            </div>
-          )}
         </div>
       ))}
     </div>

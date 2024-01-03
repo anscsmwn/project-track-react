@@ -1,25 +1,34 @@
 import React, { useState } from 'react'
 import AttachmentItem from './AttachmentItem' // This is your modified component for attachments
-const AttachmentsList = ({ attachments: attachmentItems }) => {
+import {
+  createAttachmentTask,
+  deleteAttachmentTask,
+} from '../services/KanbanBoard'
+const AttachmentsList = ({ taskId, attachments: attachmentItems }) => {
   const [attachments, setAttachments] = useState(attachmentItems)
   const [newAttachmentUrl, setNewAttachmentUrl] = useState('')
   const [isAddingAttachment, setIsAddingAttachment] = useState(false)
 
-  const addAttachment = () => {
+  const addAttachment = async () => {
     if (newAttachmentUrl.trim() !== '') {
       const newAttachment = {
         id: Date.now(),
         url: newAttachmentUrl,
       }
       setAttachments([...attachments, newAttachment])
+      await createAttachmentTask({
+        url: newAttachmentUrl,
+        task_id: taskId,
+      })
       setNewAttachmentUrl('')
     }
   }
 
-  const deleteAttachment = (attachmentId) => {
+  const deleteAttachment = async (attachmentId) => {
     setAttachments(
       attachments.filter((attachment) => attachment.id !== attachmentId),
     )
+    await deleteAttachmentTask(attachmentId)
   }
 
   return (

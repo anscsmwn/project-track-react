@@ -31,6 +31,7 @@ const KanbanCardModal = ({
     const getTaskDetail = async () => {
       setIsLoading(true)
       const response = await getDetailTask(task.id)
+      console.log(response[0])
       setDetailTask(response[0])
       setIsLoading(false)
     }
@@ -49,7 +50,7 @@ const KanbanCardModal = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-5 pl-3 rounded-md md:w-1/2 mx-2 h-[500px] sm:h-[600px] overflow-auto"
+        className="bg-white p-5 pl-3 rounded-md lg:w-1/2 md:w-9/12 w-full mx-2 h-[500px] sm:h-[600px] overflow-auto"
       >
         <div className="flex gap-2 items-center justify-between text-3xl">
           <h3 className="font-semibold pl-2">{detailTask.title}</h3>
@@ -119,10 +120,13 @@ const KanbanCardModal = ({
           <DescriptionSection task={detailTask} />
           <TodoListSection taskId={task.id} todos={detailTask.todos} />
           {/* <ProblemSection taskId={task.id} problems={detailTask.problems} /> */}
-          <AttachmentsList attachments={detailTask.attachments} />
+          <AttachmentsList
+            taskId={task.id}
+            attachments={detailTask.attachments}
+          />
           <div>
             <hr className="my-5 border-b border-solid border-gray-200" />
-            <CommentSection />
+            <CommentSection taskId={task.id} comments={detailTask.comments} />
           </div>
         </div>
       </div>

@@ -5,13 +5,15 @@ import { Link } from 'react-router-dom'
 import trashIcon from '../../assets/trash.svg'
 import linkIcon from '../../assets/link.svg'
 import searhIcon from '../../assets/search.svg'
+import { getUserId } from '../../utils/utils'
 
 const Students = () => {
   const [students, setStudents] = React.useState([])
   const [filteredStudents, setFilteredStudents] = React.useState([])
 
   const getStudents = async () => {
-    const lecturerId = 'd14235fa-073b-4e7c-9205-c065d754ab8d'
+    const lecturerId = await getUserId()
+    const response = await getMyStudents(lecturerId)
     const studentData = response.map((item) => {
       return {
         nim: item.id,

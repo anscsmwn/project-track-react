@@ -59,7 +59,9 @@ export async function getDetailTask(taskId) {
       ),
       comments (
         id,
-        comment
+        content,
+        author,
+        timestamp
       ),
       attachments (
         id,
