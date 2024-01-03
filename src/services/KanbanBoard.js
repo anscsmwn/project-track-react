@@ -11,6 +11,9 @@ export async function getBoardsOrCreate(studentId) {
     throw new Error(error.message)
   }
   // If a board exists, return it
+  if (boards.length == 1) {
+    return boards[0]
+  }
   if (boards.length > 0) {
     return boards[1]
   } else {

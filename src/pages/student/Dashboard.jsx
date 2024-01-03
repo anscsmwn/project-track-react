@@ -3,6 +3,7 @@ import Layout from '../../components/Layout'
 import KanbanBoard from '../../components/Kanban/KanbanBoard'
 import { getBoardsOrCreate, getTasks } from '../../services/KanbanBoard'
 import { useParams } from 'react-router-dom'
+import { getUserId } from '../../utils/utils'
 
 const Dashboard = () => {
   const [initialTasks, setInitialTasks] = React.useState([])
@@ -12,7 +13,8 @@ const Dashboard = () => {
   React.useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true)
-      const board = await getBoardsOrCreate(nim)
+      const id = await getUserId()
+      const board = await getBoardsOrCreate(nim ?? id)
       const tasks = await getTasks(board.id)
       setInitialTasks(tasks)
       setBoard(board)

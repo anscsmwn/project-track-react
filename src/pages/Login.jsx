@@ -15,9 +15,8 @@ const Login = () => {
         email: username,
         password: password,
       })
-      // set up the response.data in localstorage
+
       localStorage.setItem('user', JSON.stringify(response.data))
-      // redirect to dashboard
       const responseRole = await supabase
         .from('user_role')
         .select('*')
@@ -31,6 +30,9 @@ const Login = () => {
 
       if (role === 'lecturer') {
         navigate('/lecturer/students')
+      }
+      if (role === 'student') {
+        navigate('/student/kanban-board')
       }
     } catch (error) {
       alert(error.error_description || error.message)
