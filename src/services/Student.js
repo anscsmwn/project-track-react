@@ -24,3 +24,15 @@ export async function getMyStudents(lecturerId) {
 
   return students
 }
+
+export async function updateProgress(studentId, percent) {
+  const { data, error } = await supabase
+    .from('students')
+    .update({ progress: percent })
+    .eq('id', studentId)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data
+}

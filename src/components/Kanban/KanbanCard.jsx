@@ -2,24 +2,31 @@ import React from 'react'
 import KanbanCardModal from './KanbanCardModal'
 import document from '../../assets/document.svg'
 import { deleteTask, updateTask } from '../../services/KanbanBoard'
+import { updateProgress } from '../../services/Student'
+import { getUserId } from '../../utils/utils'
 
 const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   const [isEditing, setIsEditing] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [taskTitle, setTaskTitle] = React.useState(task.title)
   const handleStatusChange = async (status, id) => {
-    setInitialTasks(
-      initialTasks.map((task) => {
-        if (task.id === id) {
-          return {
-            ...task,
-            status,
-          }
+    const updatedTasks = initialTasks.map((task) => {
+      if (task.id === id) {
+        return {
+          ...task,
+          status,
         }
-        return task
-      }),
-    )
+      }
+      return task
+    })
+
+    setInitialTasks(updatedTasks)
     await updateTask({ status, id })
+
+    const doneTasks = updatedTasks.filter((task) => task.status === 'Done')
+    const percentage = parseInt((doneTasks.length / updatedTasks.length) * 100)
+    const idStudent = await getUserId()
+    await updateProgress(idStudent, percentage)
   }
   const handleChangeTitle = async () => {
     setInitialTasks(
@@ -88,20 +95,30 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
             className="hover:text-slate-700 transition-all duration-300"
             onClick={async (e) => {
               e.stopPropagation()
+              const updatedTasks = initialTasks.filter((t) => t.id !== task.id)
               setInitialTasks(initialTasks.filter((t) => t.id !== task.id))
               await deleteTask(task.id)
+              const doneTasks = updatedTasks.filter(
+                (task) => task.status === 'Done',
+              )
+              const percentage = parseInt(
+                (doneTasks.length / updatedTasks.length) * 100,
+              )
+              const idStudent = await getUserId()
+              await updateProgress(idStudent, percentage)
             }}
           >
             Delete
           </button>
         </div>
       </div>
-      <KanbanCardModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        task={task}
-        handleStatusChange={handleStatusChange}
-      />
+      {isModalOpen && (
+        <KanbanCardModal
+          setIsModalOpen={setIsModalOpen}
+          task={task}
+          handleStatusChange={handleStatusChange}
+        />
+      )}
     </>
   )
 }

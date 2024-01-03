@@ -5,6 +5,8 @@ import circleProgress from '../../assets/circle-progress.svg'
 import circleDone from '../../assets/circle-done.svg'
 import plusIcon from '../../assets/plus.svg'
 import { createTask } from '../../services/KanbanBoard'
+import { updateProgress } from '../../services/Student'
+import { getUserId } from '../../utils/utils'
 
 const KanbanColumn = ({
   board,
@@ -22,16 +24,32 @@ const KanbanColumn = ({
       return
     }
     const newTask = {
+      id: Math.random().toString(36).substr(2, 9),
       title: newTaskTitle,
       description: '',
       board_id: board.id,
       status,
     }
-    setInitialTasks([...initialTasks, newTask])
+
+    // Create a new array with the new task added
+    const updatedTasks = [...initialTasks, newTask]
+    setInitialTasks(updatedTasks)
     setIsAdding(false)
+
     try {
-      await createTask(newTask, '')
-    } catch (error) {}
+      await createTask(newTask)
+
+      // Calculate the percentage based on the updated tasks
+      const doneTasks = updatedTasks.filter((task) => task.status === 'Done')
+      const percentage = parseInt(
+        (doneTasks.length / updatedTasks.length) * 100,
+      )
+      console.log(percentage)
+      const idStudent = await getUserId()
+      await updateProgress(idStudent, percentage)
+    } catch (error) {
+      // Handle the error appropriately
+    }
   }
 
   return (
@@ -64,9 +82,9 @@ const KanbanColumn = ({
         <span className="opacity-40">{tasks.length}</span>
       </div>
       <div>
-        {tasks.map((task, i) => (
+        {tasks.map((task) => (
           <KanbanCard
-            key={i}
+            key={task.id}
             task={task}
             initialTasks={initialTasks}
             setInitialTasks={setInitialTasks}

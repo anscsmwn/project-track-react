@@ -9,13 +9,7 @@ import DescriptionSection from '../DescriptionSection'
 import closeIcon from '../../assets/close.svg'
 import { getDetailTask } from '../../services/KanbanBoard'
 
-const KanbanCardModal = ({
-  task,
-  isModalOpen,
-  setIsModalOpen,
-  handleStatusChange,
-}) => {
-  if (!isModalOpen) return null
+const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
   const [isStatusChanging, setIsStatusChanging] = React.useState(false)
   const [detailTask, setDetailTask] = React.useState({
     comments: [],
@@ -31,7 +25,6 @@ const KanbanCardModal = ({
     const getTaskDetail = async () => {
       setIsLoading(true)
       const response = await getDetailTask(task.id)
-      console.log(response[0])
       setDetailTask(response[0])
       setIsLoading(false)
     }
@@ -89,6 +82,7 @@ const KanbanCardModal = ({
                       .filter((status) => status !== task.status)
                       .map((status) => (
                         <button
+                          key={status}
                           onClick={() => {
                             handleStatusChange(status, task.id)
                             setIsStatusChanging(false)
