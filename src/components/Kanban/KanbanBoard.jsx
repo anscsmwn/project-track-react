@@ -6,6 +6,7 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
   const renderKanbanColumn = (status) => {
     return (
       <KanbanColumn
+        board={board}
         status={status}
         tasks={initialTasks.filter((task) => task.status === status)}
         setInitialTasks={setInitialTasks}

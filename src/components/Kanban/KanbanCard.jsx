@@ -1,12 +1,13 @@
 import React from 'react'
 import KanbanCardModal from './KanbanCardModal'
 import document from '../../assets/document.svg'
-import { deleteTask } from '../../services/KanbanBoard'
+import { deleteTask, updateTask } from '../../services/KanbanBoard'
 
 const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   const [isEditing, setIsEditing] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const handleStatusChange = (status, id) => {
+  const [taskTitle, setTaskTitle] = React.useState(task.title)
+  const handleStatusChange = async (status, id) => {
     setInitialTasks(
       initialTasks.map((task) => {
         if (task.id === id) {
@@ -18,6 +19,22 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
         return task
       }),
     )
+    await updateTask({ status, id })
+  }
+  const handleChangeTitle = async () => {
+    setInitialTasks(
+      initialTasks.map((t) => {
+        if (t.id === task.id) {
+          return {
+            ...t,
+            title: taskTitle,
+          }
+        }
+        return t
+      }),
+    )
+    await updateTask({ title: taskTitle, id: task.id })
+    setIsEditing(false)
   }
   return (
     <>
@@ -35,24 +52,14 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
               defaultValue={task.title}
               autoFocus
               onChange={(event) => {
-                setInitialTasks(
-                  initialTasks.map((t) => {
-                    if (t.id === task.id) {
-                      return {
-                        ...t,
-                        title: event.target.value,
-                      }
-                    }
-                    return t
-                  }),
-                )
+                setTaskTitle(event.target.value)
               }}
               onBlur={() => {
-                setIsEditing(false)
+                handleChangeTitle()
               }}
               onKeyUp={(event) => {
                 if (event.key === 'Enter') {
-                  setIsEditing(false)
+                  handleChangeTitle()
                 }
               }}
               className="w-full bg-transparent outline-none text-sm font-normal"
@@ -82,7 +89,7 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
             onClick={async (e) => {
               e.stopPropagation()
               setInitialTasks(initialTasks.filter((t) => t.id !== task.id))
-              const response = await deleteTask(task.id)
+              await deleteTask(task.id)
             }}
           >
             Delete

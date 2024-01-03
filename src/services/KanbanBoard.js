@@ -1,15 +1,38 @@
 // Assuming supabaseClient is already set up and exported from its module
 import supabase from '../supabase/supabaseClient'
 
-export async function getBoards(studentId) {
+export async function getBoardsOrCreate(studentId) {
   const { data: boards, error } = await supabase
     .from('boards')
     .select('*')
     .eq('student_id', studentId)
+
   if (error) {
     throw new Error(error.message)
   }
-  return boards[0]
+  // If a board exists, return it
+  if (boards.length > 0) {
+    return boards[1]
+  } else {
+    // If no board exists, create one
+    return await createBoardForStudent(studentId)
+  }
+}
+
+async function createBoardForStudent(studentId) {
+  const newBoard = {
+    student_id: studentId,
+  }
+
+  const { data, error } = await supabase
+    .from('boards')
+    .insert(newBoard)
+    .select()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data[0]
 }
 
 export async function getTasks(boardId) {

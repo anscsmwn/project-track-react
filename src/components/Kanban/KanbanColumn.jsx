@@ -4,24 +4,34 @@ import circleDot from '../../assets/circle-dot.svg'
 import circleProgress from '../../assets/circle-progress.svg'
 import circleDone from '../../assets/circle-done.svg'
 import plusIcon from '../../assets/plus.svg'
+import { createTask } from '../../services/KanbanBoard'
 
-const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
+const KanbanColumn = ({
+  board,
+  status,
+  tasks,
+  initialTasks,
+  setInitialTasks,
+}) => {
   const [isAdding, setIsAdding] = React.useState(false)
   const [newTaskTitle, setNewTaskTitle] = React.useState('')
 
-  const handleSaveNewTask = () => {
+  const handleSaveNewTask = async () => {
     if (newTaskTitle === '') {
       setIsAdding(false)
       return
     }
     const newTask = {
-      id: initialTasks.length + 1,
       title: newTaskTitle,
       description: '',
+      board_id: board.id,
       status,
     }
     setInitialTasks([...initialTasks, newTask])
     setIsAdding(false)
+    try {
+      await createTask(newTask, '')
+    } catch (error) {}
   }
 
   return (
@@ -54,9 +64,9 @@ const KanbanColumn = ({ status, tasks, initialTasks, setInitialTasks }) => {
         <span className="opacity-40">{tasks.length}</span>
       </div>
       <div>
-        {tasks.map((task) => (
+        {tasks.map((task, i) => (
           <KanbanCard
-            key={task.id}
+            key={i}
             task={task}
             initialTasks={initialTasks}
             setInitialTasks={setInitialTasks}

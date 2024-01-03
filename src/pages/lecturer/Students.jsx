@@ -12,7 +12,7 @@ const Students = () => {
 
   const getStudents = async () => {
     const lecturerId = 'd14235fa-073b-4e7c-9205-c065d754ab8d'
-    const response = await getMyStudents(lecturerId)
+    console.log(response)
     const studentData = response.map((item) => {
       return {
         nim: item.id,
@@ -23,7 +23,7 @@ const Students = () => {
       }
     })
     setStudents(studentData)
-    setFilteredStudents(studentData) // Initialize filteredStudents with all students
+    setFilteredStudents(studentData)
   }
 
   React.useEffect(() => {
@@ -37,8 +37,6 @@ const Students = () => {
     })
     setFilteredStudents(newFilteredStudents)
   }
-
-  // When rendering, use 'filteredStudents' to show the list
 
   return (
     <Layout>
@@ -92,16 +90,24 @@ const Students = () => {
                     {new Date(item.startProposal).toLocaleDateString()}
                   </td>
                   <td className="p-5 text-left text-sm">{item.progress}%</td>
-                  <td className="p-5 text-left text-sm flex items-center gap-2">
+                  <td className="p-5 text-left text-sm flex items-center justify-center gap-2">
                     <Link
                       to={`/lecturer/students/${item.nim}/kanban-board`}
                       target="_blank"
                       rel="noreferrer noopener"
                     >
-                      <img src={linkIcon} alt="link" className="w-4 h-4" />
+                      <img
+                        src={linkIcon}
+                        alt="link"
+                        className="min-w-4 min-h-4"
+                      />
                     </Link>
                     <button>
-                      <img src={trashIcon} alt="trash" className="w-4 h-4" />
+                      <img
+                        src={trashIcon}
+                        alt="trash"
+                        className="min-w-4 min-h-4"
+                      />
                     </button>
                   </td>
                 </tr>

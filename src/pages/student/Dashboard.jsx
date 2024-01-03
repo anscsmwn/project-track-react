@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import KanbanBoard from '../../components/Kanban/KanbanBoard'
-import { getBoards, getTasks } from '../../services/KanbanBoard'
+import { getBoardsOrCreate, getTasks } from '../../services/KanbanBoard'
 import { useParams } from 'react-router-dom'
 
 const Dashboard = () => {
@@ -12,7 +12,7 @@ const Dashboard = () => {
   React.useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true)
-      const board = await getBoards(nim)
+      const board = await getBoardsOrCreate(nim)
       const tasks = await getTasks(board.id)
       setInitialTasks(tasks)
       setBoard(board)
