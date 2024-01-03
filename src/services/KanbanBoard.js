@@ -1,7 +1,17 @@
 // Assuming supabaseClient is already set up and exported from its module
 import supabase from '../supabase/supabaseClient'
 
-// Refactored as independent functions
+export async function getBoards(studentId) {
+  const { data: boards, error } = await supabase
+    .from('boards')
+    .select('*')
+    .eq('student_id', studentId)
+  if (error) {
+    throw new Error(error.message)
+  }
+  return boards[0].id
+}
+
 export async function getTasks(boardId) {
   const { data: tasks, error } = await supabase
     .from('tasks')
