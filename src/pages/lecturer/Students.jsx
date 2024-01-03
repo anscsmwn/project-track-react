@@ -52,12 +52,13 @@ const Students = () => {
         <button className="px-3 py-2 bg-black text-white rounded-md hover:bg-opacity-65 text-xs">
           Tambah Mahasiswa
         </button>
-        <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 w-fit">
+        <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full w-fit text-xs">
           <img src={searhIcon} alt="search" className="w-4 h-4" />
           <input
             onChange={handleFilter}
             type="text"
-            className="p-2 outline-none bg-slate-50"
+            className="p-2 outline-none"
+            placeholder="Type to search..."
           />
         </div>
         <div className="overflow-x-auto">
@@ -72,11 +73,11 @@ const Students = () => {
                 <th className="text-left p-5"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-sm">
               {filteredStudents.map((item, index) => (
-                <tr className="false">
+                <tr className="false" key={index}>
                   <td className="p-5 text-left">{index + 1}</td>
-                  <td className="p-5 text-left font-medium text-blue-500">
+                  <td className="p-5 text-left font-medium text-blue-500 max-w-80">
                     <Link
                       to={`/lecturer/students/${item.nim}/kanban-board`}
                       target="_blank"
@@ -88,28 +89,34 @@ const Students = () => {
                   </td>
                   <td className="p-5 text-left font-semibold">{item.name}</td>
                   <td className="p-5 text-left text-sm">
-                    {new Date(item.startProposal).toLocaleDateString()}
+                    {new Date(item.startProposal).toLocaleDateString('id-ID', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
                   </td>
                   <td className="p-5 text-left text-sm">{item.progress}%</td>
-                  <td className="p-5 text-left text-sm flex items-center justify-center gap-2">
-                    <Link
-                      to={`/lecturer/students/${item.nim}/kanban-board`}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      <img
-                        src={linkIcon}
-                        alt="link"
-                        className="min-w-4 min-h-4"
-                      />
-                    </Link>
-                    <button>
-                      <img
-                        src={trashIcon}
-                        alt="trash"
-                        className="min-w-4 min-h-4"
-                      />
-                    </button>
+                  <td className="p-5">
+                    <div className="flex items-center justify-center gap-2">
+                      <Link
+                        to={`/lecturer/students/${item.nim}/kanban-board`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        <img
+                          src={linkIcon}
+                          alt="link"
+                          className="min-w-4 min-h-4"
+                        />
+                      </Link>
+                      <button>
+                        <img
+                          src={trashIcon}
+                          alt="trash"
+                          className="min-w-4 min-h-4"
+                        />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

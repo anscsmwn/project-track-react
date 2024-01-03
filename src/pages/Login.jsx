@@ -15,8 +15,6 @@ const Login = () => {
         email: username,
         password: password,
       })
-
-      localStorage.setItem('user', JSON.stringify(response.data))
       const responseRole = await supabase
         .from('user_role')
         .select('*')
@@ -26,7 +24,20 @@ const Login = () => {
         .from('users')
         .select('*')
         .eq('id', response.data.user.id)
-      localStorage.setItem('profile', JSON.stringify(profile.data[0]))
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          ...response.data,
+        }),
+      )
+      localStorage.setItem(
+        'profile',
+        JSON.stringify({
+          ...profile.data[0],
+          role,
+        }),
+      )
 
       if (role === 'lecturer') {
         navigate('/lecturer/students')
