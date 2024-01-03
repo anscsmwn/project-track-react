@@ -12,7 +12,6 @@ const Students = () => {
 
   const getStudents = async () => {
     const lecturerId = 'd14235fa-073b-4e7c-9205-c065d754ab8d'
-    console.log(response)
     const studentData = response.map((item) => {
       return {
         nim: item.id,

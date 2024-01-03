@@ -1,13 +1,13 @@
 import React from 'react'
-import CheckboxList from './TodoList'
+import TodoList from './TodoList'
 
-const ProblemSection = () => {
+const ProblemSection = ({ taskId }) => {
   return (
     <div>
       <div className="flex gap-2 items-center text-xl pl-2">
         <h2 className="font-semibold">Problem</h2>
       </div>
-      <CheckboxList />
+      <TodoList taskId={taskId} />
     </div>
   )
 }

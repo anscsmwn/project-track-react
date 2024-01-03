@@ -55,7 +55,7 @@ export async function getDetailTask(taskId) {
       todos (
         id,
         title,
-        check
+        completed
       ),
       comments (
         id,

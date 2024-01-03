@@ -3,7 +3,7 @@ import tripleDot from '../assets/triple-dot.svg'
 function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
   const [showMenu, setShowMenu] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-
+  const [newTaskTitle, setNewTaskTitle] = useState(task.title)
   const handleToggleMenu = () => {
     setShowMenu(!showMenu)
   }
@@ -26,27 +26,33 @@ function TodoItem({ task, toggleTaskCompletion, editTask, deleteTask }) {
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
-          checked={task.check}
+          checked={task.completed}
           onChange={() => toggleTaskCompletion(task.id)}
         />
         {isEditing ? (
           <>
             <input
               type="text"
-              value={task.title}
+              value={newTaskTitle}
               autoFocus
               onChange={(event) => {
-                editTask({
-                  id: task.id,
-                  text: event.target.value,
-                  completed: task.completed,
-                })
+                setNewTaskTitle(event.target.value)
               }}
               onBlur={() => {
+                editTask({
+                  id: task.id,
+                  title: newTaskTitle,
+                  completed: task.completed,
+                })
                 setIsEditing(false)
               }}
               onKeyUp={(event) => {
                 if (event.key === 'Enter') {
+                  editTask({
+                    id: task.id,
+                    title: newTaskTitle,
+                    completed: task.completed,
+                  })
                   setIsEditing(false)
                 }
               }}

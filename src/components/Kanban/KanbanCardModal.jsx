@@ -26,7 +26,7 @@ const KanbanCardModal = ({
     title: '',
     status: '',
   })
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
   React.useEffect(() => {
     const getTaskDetail = async () => {
       setIsLoading(true)
@@ -117,8 +117,8 @@ const KanbanCardModal = ({
         </div>
         <div className="text-sm space-y-2">
           <DescriptionSection task={detailTask} />
-          <TodoListSection todos={detailTask.todos} />
-          <ProblemSection />
+          <TodoListSection taskId={task.id} todos={detailTask.todos} />
+          {/* <ProblemSection taskId={task.id} problems={detailTask.problems} /> */}
           <AttachmentsList attachments={detailTask.attachments} />
           <div>
             <hr className="my-5 border-b border-solid border-gray-200" />

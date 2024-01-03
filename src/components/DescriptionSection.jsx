@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { updateTask } from '../services/KanbanBoard'
 
 const DescriptionSection = ({ task }) => {
   const [isEditable, setIsEditable] = useState(false)
@@ -12,9 +13,10 @@ const DescriptionSection = ({ task }) => {
     setDescription(e.target.value)
   }
 
-  const handleBlur = () => {
+  const handleSave = async () => {
     setIsEditable(false)
     // Here you can also call a function to update the task description in your state or backend
+    await updateTask({ description, id: task.id })
   }
 
   return (
@@ -28,13 +30,13 @@ const DescriptionSection = ({ task }) => {
             className="text-sm w-full rounded-md group p-2 min-h-40"
             value={description}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleSave}
             autoFocus
           />
           <div>
             <button
               className="px-3 py-2 bg-black text-white rounded-md hover:bg-opacity-65"
-              onClick={handleBlur}
+              onClick={handleSave}
             >
               Save
             </button>

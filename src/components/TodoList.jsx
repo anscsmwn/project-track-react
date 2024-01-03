@@ -1,38 +1,55 @@
 import React, { useState } from 'react'
 import TodoItem from './ItemTodo'
-const TodoList = ({ todos }) => {
+import {
+  createTodoTask,
+  deleteTodoTask,
+  updateTodoTask,
+} from '../services/KanbanBoard'
+const TodoList = ({ taskId, todos, type = 'Todo' }) => {
   const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
   const [isAddTask, setIsAddTask] = useState(false)
   React.useEffect(() => {
     if (todos !== undefined) {
-      console.log(todos)
       setTasks(todos)
     }
   }, [todos])
-  const addTask = () => {
+  const addTask = async () => {
     if (newTask.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }])
+      setTasks([...tasks, { id: Date.now(), title: newTask, completed: false }])
+      await createTodoTask({
+        title: newTask,
+        completed: false,
+        task_id: taskId,
+      })
       setNewTask('')
     }
   }
 
-  const deleteTask = (taskId) => {
+  const deleteTask = async (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId))
+    await deleteTodoTask(taskId)
   }
 
-  const toggleTaskCompletion = (taskId) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task,
-      ),
-    )
+  const toggleTaskCompletion = async (taskId) => {
+    // Find the task with the given taskId
+    const taskToToggle = tasks.find((task) => task.id === taskId)
+
+    taskToToggle.completed = !taskToToggle.completed
+
+    setTasks(tasks.map((task) => (task.id === taskId ? taskToToggle : task)))
+
+    await updateTodoTask({
+      id: taskId,
+      completed: taskToToggle.completed,
+    })
   }
 
-  const editTask = (task) => {
+  const editTask = async (task) => {
     setTasks(
-      tasks.map((t) => (t.id === task.id ? { ...t, text: task.text } : t)),
+      tasks.map((t) => (t.id === task.id ? { ...t, title: task.title } : t)),
     )
+    await updateTodoTask(task)
   }
 
   return (
