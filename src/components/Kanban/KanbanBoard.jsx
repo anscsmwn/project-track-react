@@ -2,7 +2,7 @@ import React from 'react'
 import KanbanColumn from './KanbanColumn'
 import searchIcon from '../../assets/search.svg'
 
-const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
+const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
   const renderKanbanColumn = (status) => {
     return (
       <KanbanColumn
@@ -17,10 +17,7 @@ const KanbanBoard = ({ initialTasks, setInitialTasks }) => {
     <div>
       <h1 className="font-semibold text-3xl mt-3">Kanban Board</h1>
       <p className="mt-1 mb-2 text-gray-500 max-w-2xl text-sm">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni
-        laudantium nesciunt id fugiat quaerat, cum nemo praesentium sapiente
-        modi in quam esse temporibus voluptas voluptates saepe beatae quidem
-        quae totam?
+        {board.description}
       </p>
       <div className="font-inter p-1 flex mb-4 text-gray-500 justify-end text-sm font-medium font-inter border-b border-solid border-gray-300">
         <button className="tracking-wide font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">

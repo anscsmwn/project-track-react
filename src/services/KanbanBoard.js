@@ -9,7 +9,7 @@ export async function getBoards(studentId) {
   if (error) {
     throw new Error(error.message)
   }
-  return boards[0].id
+  return boards[0]
 }
 
 export async function getTasks(boardId) {

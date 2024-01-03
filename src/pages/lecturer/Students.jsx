@@ -4,27 +4,42 @@ import { getMyStudents } from '../../services/Student'
 import { Link } from 'react-router-dom'
 import trashIcon from '../../assets/trash.svg'
 import linkIcon from '../../assets/link.svg'
+import searhIcon from '../../assets/search.svg'
 
 const Students = () => {
   const [students, setStudents] = React.useState([])
-  React.useEffect(() => {
+  const [filteredStudents, setFilteredStudents] = React.useState([])
+
+  const getStudents = async () => {
     const lecturerId = 'd14235fa-073b-4e7c-9205-c065d754ab8d'
-    const getStudents = async () => {
-      const response = await getMyStudents(lecturerId)
-      setStudents(
-        response.map((item) => {
-          return {
-            nim: item.id,
-            name: `${item.first_name} ${item.last_name}`,
-            title: item.students.title,
-            progress: item.students.progress ?? 0,
-            startProposal: item.students.created_at,
-          }
-        }),
-      )
-    }
+    const response = await getMyStudents(lecturerId)
+    const studentData = response.map((item) => {
+      return {
+        nim: item.id,
+        name: `${item.first_name} ${item.last_name}`,
+        title: item.students.title,
+        progress: item.students.progress ?? 0,
+        startProposal: item.students.created_at,
+      }
+    })
+    setStudents(studentData)
+    setFilteredStudents(studentData) // Initialize filteredStudents with all students
+  }
+
+  React.useEffect(() => {
     getStudents()
   }, [])
+
+  const handleFilter = (e) => {
+    const value = e.target.value
+    const newFilteredStudents = students.filter((item) => {
+      return item.name.toLowerCase().includes(value.toLowerCase())
+    })
+    setFilteredStudents(newFilteredStudents)
+  }
+
+  // When rendering, use 'filteredStudents' to show the list
+
   return (
     <Layout>
       <div className="border border-zinc-100 p-5 rounded-md w-full">
@@ -38,9 +53,13 @@ const Students = () => {
         <button className="px-3 py-2 bg-black text-white rounded-md hover:bg-opacity-65 text-xs">
           Tambah Mahasiswa
         </button>
-        <div className="my-3 flex items-center gap-2">
-          <input type="text" className="input-field" />
-          <button className="tracking-wider font-medium hover:bg-zinc-100 transition-all duration-300 rounded-md"></button>
+        <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 w-fit">
+          <img src={searhIcon} alt="search" className="w-4 h-4" />
+          <input
+            onChange={handleFilter}
+            type="text"
+            className="p-2 outline-none bg-slate-50"
+          />
         </div>
         <div className="overflow-x-auto">
           <table className="table-auto w-full">
@@ -55,7 +74,7 @@ const Students = () => {
               </tr>
             </thead>
             <tbody>
-              {students.map((item, index) => (
+              {filteredStudents.map((item, index) => (
                 <tr className="false">
                   <td className="p-5 text-left">{index + 1}</td>
                   <td className="p-5 text-left font-medium text-blue-500">
@@ -68,7 +87,7 @@ const Students = () => {
                       {item.title}
                     </Link>
                   </td>
-                  <td className="p-5 text-left font-bold">{item.name}</td>
+                  <td className="p-5 text-left font-semibold">{item.name}</td>
                   <td className="p-5 text-left text-sm">
                     {new Date(item.startProposal).toLocaleDateString()}
                   </td>

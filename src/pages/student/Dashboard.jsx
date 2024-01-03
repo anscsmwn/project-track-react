@@ -8,13 +8,14 @@ const Dashboard = () => {
   const [initialTasks, setInitialTasks] = React.useState([])
   const { nim } = useParams()
   const [isLoading, setIsLoading] = React.useState(true)
-
+  const [board, setBoard] = React.useState({})
   React.useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true)
-      const boardId = await getBoards(nim)
-      const tasks = await getTasks(boardId)
+      const board = await getBoards(nim)
+      const tasks = await getTasks(board.id)
       setInitialTasks(tasks)
+      setBoard(board)
       setIsLoading(false)
     }
     fetchTasks()
@@ -25,6 +26,7 @@ const Dashboard = () => {
       <Layout>
         {isLoading ? null : (
           <KanbanBoard
+            board={board}
             initialTasks={initialTasks}
             setInitialTasks={setInitialTasks}
           />
