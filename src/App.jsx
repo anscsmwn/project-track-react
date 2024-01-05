@@ -4,7 +4,7 @@ import Login from './pages/Login'
 import StudentDashboard from './pages/student/Dashboard'
 import StudentsFeed from './pages/lecturer/Students'
 import NotFound from './pages/NotFound'
-
+import Profile from './pages/Profile'
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const profile = JSON.parse(localStorage.getItem('profile'))
   const isAuthenticated = profile !== null
@@ -47,6 +47,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['lecturer']}>
               <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={['lecturer', 'student']}>
+              <Profile />
             </ProtectedRoute>
           }
         />

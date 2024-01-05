@@ -8,3 +8,8 @@ export function getFullName() {
   const data = JSON.parse(localStorage.getItem('profile'))
   return data.first_name + ' ' + data.last_name
 }
+
+export function getStorangeProfile() {
+  const data = JSON.parse(localStorage.getItem('profile'))
+  return data
+}
