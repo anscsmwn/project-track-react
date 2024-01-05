@@ -37,19 +37,20 @@ const KanbanColumn = ({
     setIsAdding(false)
 
     try {
-      await createTask(newTask)
-
-      // Calculate the percentage based on the updated tasks
+      await createTask({
+        title: newTaskTitle,
+        description: '',
+        board_id: board.id,
+        status,
+      })
       const doneTasks = updatedTasks.filter((task) => task.status === 'Done')
       const percentage = parseInt(
         (doneTasks.length / updatedTasks.length) * 100,
       )
-      console.log(percentage)
       const idStudent = await getUserId()
       await updateProgress(idStudent, percentage)
-    } catch (error) {
-      // Handle the error appropriately
-    }
+    } catch (error) {}
+    setNewTaskTitle('')
   }
 
   return (

@@ -66,6 +66,11 @@ export async function getDetailTask(taskId) {
         author,
         timestamp
       ),
+      problems(
+        id,
+        title,
+        completed
+      ),
       attachments (
         id,
         url
@@ -187,6 +192,36 @@ export async function deleteAttachmentTask(attachmentId) {
     .from('attachments')
     .delete()
     .eq('id', attachmentId)
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data
+}
+
+export async function createProblem(problem) {
+  const { data, error } = await supabase.from('problems').insert(problem)
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data
+}
+
+export async function updateProblem(problem) {
+  const { data, error } = await supabase
+    .from('problems')
+    .update(problem)
+    .eq('id', problem.id)
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data
+}
+
+export async function deleteProblem(problemId) {
+  const { data, error } = await supabase
+    .from('problems')
+    .delete()
+    .eq('id', problemId)
   if (error) {
     throw new Error(error.message)
   }

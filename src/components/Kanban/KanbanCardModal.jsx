@@ -11,12 +11,17 @@ import { getDetailTask } from '../../services/KanbanBoard'
 
 const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
   const [isStatusChanging, setIsStatusChanging] = React.useState(false)
+  const [activeField, setActiveField] = React.useState({
+    todo: false,
+    problems: false,
+    attachments: false,
+  })
   const [detailTask, setDetailTask] = React.useState({
     comments: [],
     attachments: [],
     description: '',
     problems: [],
-    todo: [],
+    todos: [],
     title: '',
     status: '',
   })
@@ -110,17 +115,33 @@ const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
             <p>Annas Casmawan Ahmad</p>
           </div>
         </div>
-        <div className="text-sm space-y-2">
-          <DescriptionSection task={detailTask} />
-          <TodoListSection taskId={task.id} todos={detailTask.todos} />
-          {/* <ProblemSection taskId={task.id} problems={detailTask.problems} /> */}
-          <AttachmentsList
-            taskId={task.id}
-            attachments={detailTask.attachments}
-          />
-          <div>
-            <hr className="my-5 border-b border-solid border-gray-200" />
-            <CommentSection taskId={task.id} comments={detailTask.comments} />
+        <div className="text-sm space-y-2 flex flex-col md:flex-row gap-2">
+          <div className="md:w-4/5">
+            <DescriptionSection task={detailTask} />
+            <TodoListSection taskId={task.id} todos={detailTask.todos} />
+            <ProblemSection taskId={task.id} problems={detailTask.problems} />
+            <AttachmentsList
+              taskId={task.id}
+              attachments={detailTask.attachments}
+            />
+            <div>
+              <hr className="my-5 border-b border-solid border-gray-200" />
+              <CommentSection taskId={task.id} comments={detailTask.comments} />
+            </div>
+          </div>
+          <div className="w-1/5 flex flex-col items-start text-xs font-semibold ">
+            <p className="text-xs mb-2">Add to card</p>
+            <div className="space-y-1 w-full">
+              <button className="px-3 py-2 border border-solid border-slate-100 rounded-md w-full text-start bg-slate-100 transition-all duration-200">
+                Todos
+              </button>
+              <button className="px-3 py-2 border border-solid border-slate-100 rounded-md w-full text-start bg-slate-100 transition-all duration-200">
+                Problems
+              </button>
+              <button className="px-3 py-2 border border-solid border-slate-100 rounded-md w-full text-start bg-slate-100 transition-all duration-200">
+                Attachments
+              </button>
+            </div>
           </div>
         </div>
       </div>

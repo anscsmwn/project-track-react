@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import TodoItem from './ItemTodo'
 import {
+  createProblem,
   createTodoTask,
+  deleteProblem,
   deleteTodoTask,
+  updateProblem,
   updateTodoTask,
 } from '../services/KanbanBoard'
 const TodoList = ({ taskId, todos, type = 'Todo' }) => {
@@ -17,18 +20,30 @@ const TodoList = ({ taskId, todos, type = 'Todo' }) => {
   const addTask = async () => {
     if (newTask.trim() !== '') {
       setTasks([...tasks, { id: Date.now(), title: newTask, completed: false }])
-      await createTodoTask({
-        title: newTask,
-        completed: false,
-        task_id: taskId,
-      })
+      if (type === 'Todo') {
+        await createTodoTask({
+          title: newTask,
+          completed: false,
+          task_id: taskId,
+        })
+      } else {
+        await createProblem({
+          title: newTask,
+          completed: false,
+          task_id: taskId,
+        })
+      }
       setNewTask('')
     }
   }
 
   const deleteTask = async (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId))
-    await deleteTodoTask(taskId)
+    if (type === 'Todo') {
+      await deleteTodoTask(taskId)
+    } else {
+      await deleteProblem(taskId)
+    }
   }
 
   const toggleTaskCompletion = async (taskId) => {
@@ -38,18 +53,28 @@ const TodoList = ({ taskId, todos, type = 'Todo' }) => {
     taskToToggle.completed = !taskToToggle.completed
 
     setTasks(tasks.map((task) => (task.id === taskId ? taskToToggle : task)))
-
-    await updateTodoTask({
-      id: taskId,
-      completed: taskToToggle.completed,
-    })
+    if (type === 'Todo') {
+      await updateTodoTask({
+        id: taskId,
+        completed: taskToToggle.completed,
+      })
+    } else {
+      await updateProblem({
+        id: taskId,
+        completed: taskToToggle.completed,
+      })
+    }
   }
 
   const editTask = async (task) => {
     setTasks(
       tasks.map((t) => (t.id === task.id ? { ...t, title: task.title } : t)),
     )
-    await updateTodoTask(task)
+    if (type === 'Todo') {
+      await updateTodoTask(task)
+    } else {
+      await updateProblem(task)
+    }
   }
 
   return (

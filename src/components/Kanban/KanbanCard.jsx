@@ -49,7 +49,7 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
         onClick={(e) => {
           setIsModalOpen(true)
         }}
-        className="group p-2 my-1 w-full rounded-md flex justify-between shadow-sm border border-solid border-zinc-300 hover:bg-gray-100 cursor-pointer transition-all duration-500"
+        className="max-w-[290px] min-w-[290px] group p-2 my-1 w-full rounded-md flex justify-between shadow-sm border border-solid border-zinc-300 hover:bg-gray-100 cursor-pointer transition-all duration-500"
       >
         {isEditing ? (
           <div className="flex items-center gap-1">

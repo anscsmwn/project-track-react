@@ -8,6 +8,8 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
     'In Progress',
     'Done',
   ])
+  const [isSearchVisible, setIsSearchVisible] = React.useState(false)
+  const [filteredTasks, setFilteredTasks] = React.useState(initialTasks)
 
   const renderKanbanColumn = (status) => {
     if (!visibleStatuses.includes(status)) return null
@@ -15,7 +17,7 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
       <KanbanColumn
         board={board}
         status={status}
-        tasks={initialTasks.filter((task) => task.status === status)}
+        tasks={filteredTasks.filter((task) => task.status === status)}
         setInitialTasks={setInitialTasks}
         initialTasks={initialTasks}
       />
@@ -49,9 +51,29 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
             {status}
           </button>
         ))}
-        <button className="tracking-wider font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md">
+        <button
+          onClick={() => {
+            setIsSearchVisible(!isSearchVisible)
+          }}
+          className="tracking-wider font-medium px-2 py-1 hover:bg-gray-200 transition-all duration-300 rounded-md"
+        >
           <img src={searchIcon} alt="search" className="w-4 h-4 opacity-60" />
         </button>
+        {isSearchVisible && (
+          <input
+            type="text"
+            placeholder="Search"
+            className="px-2 py-1 rounded-md border border-solid border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-transparent"
+            onChange={(event) => {
+              const searchTerm = event.target.value.toLowerCase()
+              setFilteredTasks(
+                initialTasks.filter((task) =>
+                  task.title.toLowerCase().includes(searchTerm),
+                ),
+              )
+            }}
+          />
+        )}
       </div>
       <div className="flex gap-5 overflow-auto">
         {renderKanbanColumn('To Do')}
