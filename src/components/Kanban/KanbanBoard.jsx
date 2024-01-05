@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import KanbanColumn from './KanbanColumn'
 import searchIcon from '../../assets/search.svg'
 
@@ -10,7 +10,9 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
   ])
   const [isSearchVisible, setIsSearchVisible] = React.useState(false)
   const [filteredTasks, setFilteredTasks] = React.useState(initialTasks)
-
+  useEffect(() => {
+    setFilteredTasks(initialTasks)
+  }, [initialTasks])
   const renderKanbanColumn = (status) => {
     if (!visibleStatuses.includes(status)) return null
     return (
