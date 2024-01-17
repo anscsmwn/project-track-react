@@ -35,9 +35,11 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
   }
   return (
     <div>
-      <h1 className="font-semibold text-3xl mt-3">Kanban Board</h1>
+      <h1 className="font-semibold text-2xl mt-3 max-w-5xl">
+        {board.project.title}
+      </h1>
       <p className="mt-1 mb-2 text-gray-500 max-w-2xl text-sm">
-        {board.description}
+        {board.project.description}
       </p>
       <div className="font-inter p-1 flex mb-4 text-gray-500 justify-end text-sm font-inter border-b border-solid border-gray-300 gap-1">
         {['To Do', 'In Progress', 'Done'].map((status) => (

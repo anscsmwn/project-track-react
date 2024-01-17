@@ -227,3 +227,14 @@ export async function deleteProblem(problemId) {
   }
   return data
 }
+
+export async function getProjectInformation(studentId) {
+  const { data, error } = await supabase
+    .from('students')
+    .select('*')
+    .eq('id', studentId)
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data[0]
+}
