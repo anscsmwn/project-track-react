@@ -15,16 +15,11 @@ const Login = () => {
         email: username,
         password: password,
       })
-      const responseRole = await supabase
-        .from('user_role')
-        .select('*')
-        .eq('user_id', response.data.user.id)
-      const role = responseRole.data[0].role
       const profile = await supabase
         .from('users')
         .select('*')
         .eq('id', response.data.user.id)
-
+      const role = profile.data[0].role
       localStorage.setItem(
         'user',
         JSON.stringify({
@@ -35,7 +30,6 @@ const Login = () => {
         'profile',
         JSON.stringify({
           ...profile.data[0],
-          role,
         }),
       )
 
@@ -45,12 +39,15 @@ const Login = () => {
       if (role === 'student') {
         navigate('/student/kanban-board')
       }
+      if (role === 'admin') {
+        navigate('/admin/dashboard')
+      }
     } catch (error) {
       alert(error.error_description || error.message)
     }
   }
   return (
-    <main className="flex items-center justify-center min-h-screen">
+    <main className="flex items-center justify-center min-h-screen px-5 sm:px-10">
       <div className="">
         <h1>Welcome Back</h1>
         <p className="text-sm">

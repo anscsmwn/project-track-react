@@ -7,7 +7,8 @@ export const getProfile = async (profileId) => {
       `
       id,
       first_name,
-      last_name
+      last_name,
+      role
     `,
     )
     .eq('id', profileId)

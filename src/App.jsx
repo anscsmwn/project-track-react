@@ -5,6 +5,7 @@ import StudentDashboard from './pages/student/Dashboard'
 import StudentsFeed from './pages/lecturer/Students'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
+import DashboardAdmin from './pages/admin/Dashboard'
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const profile = JSON.parse(localStorage.getItem('profile'))
@@ -22,8 +23,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   if (location.pathname === '/') {
     if (profile.role === 'student') {
       return <Navigate to="/student/kanban-board" />
-    } else {
+    }
+    if (profile.role === 'lecturer') {
       return <Navigate to="/lecturer/students" />
+    }
+    if (profile.role === 'admin') {
+      return <Navigate to="/admin/dashboard" />
     }
   }
 
@@ -68,9 +73,17 @@ function App() {
           }
         />
         <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <DashboardAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="*"
           element={
-            <ProtectedRoute allowedRoles={['lecturer', 'student']}>
+            <ProtectedRoute allowedRoles={['lecturer', 'student', 'admin']}>
               <NotFound />
             </ProtectedRoute>
           }

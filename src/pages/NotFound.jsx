@@ -1,5 +1,22 @@
+import { useNavigate } from 'react-router-dom'
+import { getStorangeProfile } from '../utils/utils'
+
 const NotFoundPage = () => {
-  const handleBackToHome = () => {}
+  const navigate = useNavigate()
+
+  const handleBackToHome = () => {
+    const role = getStorangeProfile()?.role
+    console.log(role)
+    if (role === 'lecturer') {
+      navigate('/lecturer/students')
+    }
+    if (role === 'student') {
+      navigate('/student/kanban-board')
+    }
+    if (role === 'admin') {
+      navigate('/admin/dashboard')
+    }
+  }
   return (
     <div className="bg-gray-100 h-screen flex flex-col items-center justify-center">
       <div className="text-center">

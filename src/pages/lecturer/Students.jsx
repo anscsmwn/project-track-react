@@ -4,7 +4,7 @@ import { getMyStudents } from '../../services/Student'
 import { Link } from 'react-router-dom'
 import trashIcon from '../../assets/trash.svg'
 import linkIcon from '../../assets/link.svg'
-import searhIcon from '../../assets/search.svg'
+import searchIcon from '../../assets/search.svg'
 import { getUserId } from '../../utils/utils'
 
 const Students = () => {
@@ -53,7 +53,7 @@ const Students = () => {
           Tambah Mahasiswa
         </button>
         <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full w-fit text-xs">
-          <img src={searhIcon} alt="search" className="w-4 h-4" />
+          <img src={searchIcon} alt="search" className="w-4 h-4" />
           <input
             onChange={handleFilter}
             type="text"
