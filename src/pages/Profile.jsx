@@ -68,16 +68,18 @@ const Profile = () => {
             >
               Personal
             </button>
-            <button
-              onClick={() => setActiveTab('project')}
-              className={
-                activeTab === 'project'
-                  ? 'bg-black px-3 py-2 rounded-full text-white'
-                  : 'px-3 py-2'
-              }
-            >
-              Project
-            </button>
+            {profile.role === 'student' && (
+              <button
+                onClick={() => setActiveTab('project')}
+                className={
+                  activeTab === 'project'
+                    ? 'bg-black px-3 py-2 rounded-full text-white'
+                    : 'px-3 py-2'
+                }
+              >
+                Project
+              </button>
+            )}
           </div>
           {activeTab === 'profile' && (
             <form onSubmit={onSubmitProfile}>
