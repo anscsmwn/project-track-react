@@ -59,12 +59,24 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
         await updateUser({
           ...user,
         })
+        setUserList((prev) =>
+          prev.map((item) => {
+            if (item.id === user.id) {
+              return {
+                id: user.id,
+                name: `${user.first_name} ${user.last_name}`,
+                role: user.role,
+              }
+            }
+            return item
+          }),
+        )
       } else {
-        await createUser(user)
+        const userResponse = await createUser(user)
         setUserList((prev) => [
           ...prev,
           {
-            id: prev.length + 1,
+            id: userResponse.id,
             name: `${user.first_name} ${user.last_name}`,
             role: user.role,
           },

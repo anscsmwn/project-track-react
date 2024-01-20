@@ -4,7 +4,7 @@ import UserModal from '../../components/UserModal'
 import Layout from '../../components/Layout'
 import pencilIcon from '../../assets/pencil.svg'
 import trashIcon from '../../assets/trash.svg'
-import { getUserList } from '../../services/Admin'
+import { deleteUser, getUserList } from '../../services/Admin'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
@@ -24,6 +24,15 @@ const Dashboard = () => {
     }
     fetchUserList()
   }, [])
+  const handleDelete = async (id) => {
+    try {
+      await deleteUser(id)
+      setUserList((prev) => prev.filter((user) => user.id !== id))
+    } catch (error) {
+      alert(error.message)
+    } finally {
+    }
+  }
   return (
     <Layout>
       <div className="border border-zinc-100 p-5 rounded-md w-full">
@@ -86,7 +95,10 @@ const Dashboard = () => {
                           className="min-w-4 min-h-4"
                         />
                       </button>
-                      <button className="px-2 py-1 hover:bg-gray-200 rounded-md transition-all">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="px-2 py-1 hover:bg-gray-200 rounded-md transition-all"
+                      >
                         <img
                           src={trashIcon}
                           alt="delete"
