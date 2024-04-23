@@ -85,7 +85,7 @@ export async function getDetailTask(taskId) {
 }
 
 export async function createTask(task) {
-  const { data, error } = await supabase.from('tasks').insert(task)
+  const { data, error } = await supabase.from('tasks').insert(task).select()
   if (error) {
     throw new Error(error.message)
   }
