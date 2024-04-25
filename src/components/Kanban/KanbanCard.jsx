@@ -46,7 +46,7 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   return (
     <>
       <div
-        id={task.id}
+        id={`card-${task.id}`}
         onClick={(e) => {
           setIsModalOpen(true)
         }}
