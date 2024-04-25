@@ -76,6 +76,7 @@ const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
                   onClick={() => {
                     setIsStatusChanging(true)
                   }}
+                  id='btn-status'
                   className="bg-gray-300 px-1 pr-3 py-1 rounded-full flex justify-between items-center hover:opacity-95 cursor-pointer transition-all max-w-[200px]"
                 >
                   <div className="flex gap-1 items-center">
@@ -101,6 +102,7 @@ const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
                         .filter((status) => status !== task.status)
                         .map((status) => (
                           <button
+                          id={`btn-status-${status.toLocaleLowerCase().replace('','-')}`}
                             key={status}
                             onClick={() => {
                               handleStatusChange(status, task.id)
