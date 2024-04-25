@@ -102,7 +102,7 @@ const KanbanCardModal = ({ task, setIsModalOpen, handleStatusChange }) => {
                         .filter((status) => status !== task.status)
                         .map((status) => (
                           <button
-                          id={`btn-status-${status.toLocaleLowerCase().replace('','-')}`}
+                          id={`btn-status-${status.toLocaleLowerCase().replace(' ','-')}`}
                             key={status}
                             onClick={() => {
                               handleStatusChange(status, task.id)
