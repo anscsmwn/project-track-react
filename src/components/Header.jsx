@@ -1,16 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import supabase from '../supabase/supabaseClient'
 import { getStorangeProfile } from '../utils/utils'
 import profileIcon from '../assets/profile.svg'
+
 const Header = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const navigate = useNavigate()
+  const dropdownRef = useRef(null)
+
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible)
   }
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownVisible(false)
+    }
+  }
+
+  useEffect(() => {
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   const profile = getStorangeProfile()
-  const role = getStorangeProfile().role
+  const role = profile.role
+
   return (
     <header className="px-5 sm:px-10 py-4 flex justify-between items-center">
       <p>
@@ -18,10 +38,13 @@ const Header = () => {
       </p>
       <div className="profile-container relative">
         <div onClick={toggleDropdown} className="profile-icon cursor-pointer">
-          <img src={profileIcon} />
+          <img src={profileIcon} alt="profile" />
         </div>
         {isDropdownVisible && (
-          <div className="dropdown-menu absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+          <div
+            ref={dropdownRef}
+            className="dropdown-menu absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20"
+          >
             <p className="px-4 pt-2 pt text-gray-700 font-semibold">
               {profile.first_name} {profile.last_name}
             </p>
@@ -29,7 +52,7 @@ const Header = () => {
             <div
               data-orientation="horizontal"
               role="none"
-              class="shrink-0 bg-border h-[1px] w-full my-2 border border-solid"
+              className="shrink-0 bg-border h-[1px] w-full my-2 border border-solid"
             ></div>
             <Link
               to={
