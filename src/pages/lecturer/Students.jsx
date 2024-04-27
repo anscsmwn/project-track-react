@@ -10,6 +10,8 @@ import { getUserId } from '../../utils/utils'
 const Students = () => {
   const [students, setStudents] = React.useState([])
   const [filteredStudents, setFilteredStudents] = React.useState([])
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [itemsPerPage, setItemsPerPage] = React.useState(10)
 
   const getStudents = async () => {
     const lecturerId = await getUserId()
@@ -33,25 +35,37 @@ const Students = () => {
 
   const handleFilter = (e) => {
     const value = e.target.value
-    const newFilteredStudents = students.filter((item) => {
-      return item.name.toLowerCase().includes(value.toLowerCase())
-    })
+    const newFilteredStudents = students.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    )
     setFilteredStudents(newFilteredStudents)
+    setCurrentPage(1) // Reset to first page on filter change
+  }
+
+  // Get current items
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredStudents.slice(indexOfFirstItem, indexOfLastItem)
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
+  // Create page numbers
+  const totalPages = Math.ceil(filteredStudents.length / itemsPerPage)
+  const pageNumbers = []
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i)
   }
 
   return (
     <Layout>
       <div className="border border-zinc-100 p-5 rounded-md w-full">
-        <h1 className="font-semibold text-xl">List Mahasiswa Bimbingan</h1>
-        <p className="text-sm max-w-xl text-gray-500 my-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores a
-          quis debitis harum architecto nihil distinctio mollitia officia
-          officiis culpa. Consectetur ullam voluptatem vitae eius minima? Harum
-          at ducimus est!
+        <h1 className="font-semibold text-xl">
+          Kelola Daftar Mahasiswa Bimbingan Anda
+        </h1>
+        <p class="text-sm max-w-xl text-gray-500 my-2">
+          Dengan mudah pantau kemajuan mahasiswa, tinjau proposal mereka.
         </p>
-        <button className="px-3 py-2 bg-black text-white rounded-md hover:bg-opacity-65 text-xs">
-          Tambah Mahasiswa
-        </button>
         <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full w-fit text-xs">
           <img src={searchIcon} alt="search" className="w-4 h-4" />
           <input
@@ -74,9 +88,11 @@ const Students = () => {
               </tr>
             </thead>
             <tbody className="text-sm">
-              {filteredStudents.map((item, index) => (
-                <tr className="false" key={index}>
-                  <td className="p-5 text-left">{index + 1}</td>
+              {currentItems.map((item, index) => (
+                <tr key={index}>
+                  <td className="p-5 text-left">
+                    {index + 1 + (currentPage - 1) * itemsPerPage}
+                  </td>
                   <td className="p-5 text-left font-medium text-blue-500 max-w-80">
                     <Link
                       to={`/lecturer/students/${item.nim}/kanban-board`}
@@ -123,6 +139,23 @@ const Students = () => {
             </tbody>
           </table>
         </div>
+        <nav>
+          <ul className="flex justify-center gap-3">
+            {pageNumbers.map((number) => (
+              <li key={number}>
+                <a
+                  onClick={() => paginate(number)}
+                  href="#!"
+                  className={`text-black cursor-pointer ${
+                    currentPage == number ? 'font-bold' : ''
+                  }`}
+                >
+                  {number}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </Layout>
   )
