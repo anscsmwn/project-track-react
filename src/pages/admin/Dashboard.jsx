@@ -102,8 +102,10 @@ const Dashboard = () => {
             </thead>
             <tbody className="text-sm">
               {currentItems.map((item, index) => (
-                <tr className="false" key={index}>
-                  <td className="p-5 text-left">{index + 1}</td>
+                <tr key={index}>
+                  <td className="p-5 text-left">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
                   <td className="p-5 text-left font-semibold max-w-80">
                     {item.name}
                   </td>

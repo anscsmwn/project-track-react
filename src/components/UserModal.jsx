@@ -82,6 +82,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
           },
         ])
       }
+      setIsModalOpen(false)
     } catch (error) {
       alert(error.message)
     } finally {

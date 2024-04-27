@@ -36,10 +36,11 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
   return (
     <div>
       <h1 className="font-semibold text-2xl mt-3 max-w-5xl">
-        {board.project.title}
+        {board.project.title ?? 'Judul Skripsi Anda'}
       </h1>
       <p className="mt-1 mb-2 text-gray-500 max-w-2xl text-sm">
-        {board.project.description}
+        {board.project.description ??
+          'Tuliskan deskripsi singkat skripsi Anda di sini. Sertakan permasalahan, metodologi, dan signifikansi penelitian Anda.'}
       </p>
       <div className="font-inter p-1 flex mb-4 text-gray-500 justify-end text-sm font-inter border-b border-solid border-gray-300 gap-1">
         {['To Do', 'In Progress', 'Done'].map((status) => (
@@ -72,8 +73,8 @@ const KanbanBoard = ({ board, initialTasks, setInitialTasks }) => {
               const searchTerm = event.target.value.toLowerCase()
               setFilteredTasks(
                 initialTasks.filter((task) =>
-                  task.title.toLowerCase().includes(searchTerm),
-                ),
+                  task.title.toLowerCase().includes(searchTerm)
+                )
               )
             }}
           />

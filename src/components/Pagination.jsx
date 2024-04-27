@@ -6,7 +6,7 @@ const Pagination = ({ currentPage, changePage, totalPages }) => {
   const getVisiblePages = () => {
     // Start from at least page 1
     const totalVisiblePage = 3
-    const offset = totalVisiblePage - 2
+    const offset = totalVisiblePage - 2 + 1
     let start = Math.max(currentPage - 1, 1)
 
     // Adjust start if we are close to the end
@@ -29,6 +29,7 @@ const Pagination = ({ currentPage, changePage, totalPages }) => {
       <ul className="flex justify-center items-center gap-3">
         <li>
           <button
+            className={`${currentPage === 1 ? 'opacity-30' : ''}`}
             disabled={currentPage === 1}
             onClick={() => changePage(currentPage - 1)}
           >
@@ -51,6 +52,7 @@ const Pagination = ({ currentPage, changePage, totalPages }) => {
 
         <li>
           <button
+            className={`${currentPage === totalPages ? 'opacity-30' : ''}`}
             disabled={currentPage === totalPages}
             onClick={() => changePage(currentPage + 1)}
           >
