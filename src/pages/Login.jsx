@@ -1,20 +1,27 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { isAuthError } from '@supabase/supabase-js'
 import supabase from '../supabase/supabaseClient'
 import { useNavigate } from 'react-router-dom'
+import Toast from '../components/Toast'
 const Login = () => {
   const navigate = useNavigate()
-
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [isError, setIsError] = React.useState(false)
   const onSubmit = async (e) => {
     e.preventDefault()
     const username = e.target.username.value
     const password = e.target.password.value
 
     try {
+      setIsLoading(true)
+      setIsError(false)
       const response = await supabase.auth.signInWithPassword({
         email: username,
         password: password,
       })
+      if (isAuthError(response.error)) {
+        setIsError(true)
+      }
       const profile = await supabase
         .from('users')
         .select('*')
@@ -43,20 +50,21 @@ const Login = () => {
         navigate('/admin/dashboard')
       }
     } catch (error) {
-      alert(error.error_description || error.message)
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
     <main className="flex items-center justify-center min-h-screen px-5 sm:px-10">
       <div className="">
-        <h1>Welcome Back</h1>
-        <p className="text-sm">
-          Please enter your username and password to log in.
+        <h1>Selamat Datang</h1>
+        <p className="text-sm mt-1">
+          Silakan masukkan email dan kata sandi Anda untuk masuk.
         </p>
         <form onSubmit={onSubmit}>
           <div className="flex flex-col space-y-2 my-3">
             <label className="label" htmlFor="username">
-              Username
+              Email
             </label>
             <input
               name="username"
@@ -66,7 +74,7 @@ const Login = () => {
               required
             />
             <label className="label" htmlFor="password">
-              Password
+              Kata Sandi
             </label>
             <input
               name="password"
@@ -76,11 +84,17 @@ const Login = () => {
               required
             />
           </div>
+          {isError && (
+            <Toast
+              description="Mohon maaf, terjadi kesalahan. Silakan cek kembali email dan kata sandi Anda lalu coba lagi."
+              isError={true}
+            />
+          )}
           <button
-            className="px-3 py-2 text-sm w-full rounded-md text-white font-semibold bg-black border border-solid border-black"
+            className="mt-2 px-3 py-2 text-sm w-full rounded-md text-white font-semibold bg-black border border-solid border-black"
             type="submit"
           >
-            Masuk
+            {isLoading ? 'Loading' : 'Masuk'}
           </button>
         </form>
       </div>
