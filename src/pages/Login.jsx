@@ -24,13 +24,13 @@ const Login = () => {
         'user',
         JSON.stringify({
           ...response.data,
-        }),
+        })
       )
       localStorage.setItem(
         'profile',
         JSON.stringify({
           ...profile.data[0],
-        }),
+        })
       )
 
       if (role === 'lecturer') {
@@ -80,11 +80,8 @@ const Login = () => {
             className="px-3 py-2 text-sm w-full rounded-md text-white font-semibold bg-black border border-solid border-black"
             type="submit"
           >
-            Log in
+            Masuk
           </button>
-          <Link to="/forgot-password" className="text-xs mt-1">
-            Forgot Password?
-          </Link>
         </form>
       </div>
     </main>

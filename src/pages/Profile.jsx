@@ -132,13 +132,13 @@ const Profile = () => {
           )}
           {activeTab === 'project' && (
             <form onSubmit={onSubmitProject}>
-              <div class="flex flex-col space-y-2 my-3">
-                <label class="label" for="title">
+              <div className="flex flex-col space-y-2 my-3">
+                <label className="label" for="title">
                   Judul Tugas Akhir
                 </label>
                 <textarea
                   defaultValue={project.title}
-                  class="input-field"
+                  className="input-field"
                   id="title"
                   rows="3"
                   onChange={(e) => {
@@ -149,12 +149,12 @@ const Profile = () => {
                   }}
                   required
                 />
-                <label class="label" for="description">
+                <label className="label" for="description">
                   Deskripsi Tugas Akhir
                 </label>
                 <textarea
                   defaultValue={project.description}
-                  class="input-field"
+                  className="input-field"
                   id="description"
                   rows="8"
                   onChange={(e) => {
@@ -168,7 +168,7 @@ const Profile = () => {
               </div>
               <button
                 disabled={loading}
-                class="px-3 py-2 text-sm w-full rounded-md text-white font-semibold bg-black border border-solid border-black disabled:opacity-50"
+                className="px-3 py-2 text-sm w-full rounded-md text-white font-semibold bg-black border border-solid border-black disabled:opacity-50"
                 type="submit"
               >
                 {loading ? 'Loading...' : 'Simpan'}

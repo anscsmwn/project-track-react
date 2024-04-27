@@ -36,12 +36,12 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="border border-zinc-100 p-5 rounded-md w-full">
-        <h1 className="font-semibold text-xl">List User</h1>
+        <h1 className="font-semibold text-xl">Kelola Daftar Pengguna</h1>
         <p className="text-sm max-w-xl text-gray-500 my-2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores a
-          quis debitis harum architecto nihil distinctio mollitia officia
-          officiis culpa. Consectetur ullam voluptatem vitae eius minima? Harum
-          at ducimus est!
+          Pantau dan atur pengguna dalam sistem Anda dengan mudah. Pada halaman
+          ini, Anda dapat melihat daftar lengkap pengguna dengan nama dan peran
+          mereka dalam sistem. Gunakan fitur pencarian untuk menemukan pengguna
+          tertentu dengan cepat.
         </p>
         <button
           onClick={() => {
