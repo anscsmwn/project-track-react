@@ -75,6 +75,7 @@ const Dashboard = () => {
         <button
           onClick={() => {
             setIsModalOpen(true)
+            setIdUser(null)
           }}
           className="px-3 py-2 bg-black text-white rounded-md hover:bg-opacity-65 text-xs"
         >
