@@ -14,6 +14,10 @@ const Dashboard = () => {
   const [filteredUser, setFilteredUser] = React.useState([])
   const [currentPage, setCurrentPage] = React.useState(1)
   const [itemsPerPage, setItemsPerPage] = React.useState(5)
+
+  React.useEffect(() => {
+    setFilteredUser(userList)
+  }, [userList])
   React.useEffect(() => {
     const fetchUserList = async () => {
       const response = await getUserList()

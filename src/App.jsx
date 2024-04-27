@@ -7,6 +7,27 @@ import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import DashboardAdmin from './pages/admin/Dashboard'
 
+const RedirectIfAuthenticated = () => {
+  const profile = JSON.parse(localStorage.getItem('profile'))
+  const isAuthenticated = profile !== null
+
+  if (isAuthenticated) {
+    // Redirect based on user role
+    switch (profile.role) {
+      case 'student':
+        return <Navigate to="/student/kanban-board" />
+      case 'lecturer':
+        return <Navigate to="/lecturer/students" />
+      case 'admin':
+        return <Navigate to="/admin/dashboard" />
+      default:
+        return <Navigate to="/" />
+    }
+  }
+
+  return <Login />
+}
+
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const profile = JSON.parse(localStorage.getItem('profile'))
   const isAuthenticated = profile !== null
@@ -39,7 +60,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<RedirectIfAuthenticated />} />
         <Route
           path="/student/kanban-board"
           element={

@@ -69,10 +69,11 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
               }
             }
             return item
-          }),
+          })
         )
       } else {
         const userResponse = await createUser(user)
+        console.log(userResponse)
         setUserList((prev) => [
           ...prev,
           {
@@ -113,7 +114,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-2 my-3">
             <label className="label" htmlFor="first_name">
-              First Name
+              Nama Depan
             </label>
             <input
               onChange={(e) => {
@@ -127,7 +128,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
               required
             />
             <label className="label" htmlFor="last_name">
-              Last Name
+              Nama Belakang
             </label>
             <input
               onChange={(e) => {
@@ -141,7 +142,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
               required
             />
             <label className="label" htmlFor="username">
-              Username
+              Email
             </label>
             <input
               onChange={(e) => {
@@ -157,7 +158,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
             {!id && (
               <>
                 <label className="label" htmlFor="password">
-                  Password
+                  Kata Sandi
                 </label>
                 <input
                   onChange={(e) => {
@@ -172,7 +173,7 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
               </>
             )}
             <label className="label" htmlFor="role">
-              Role
+              Jenis Pengguna
             </label>
             <div className="flex gap-2 flex-col md:flex-row">
               <button
@@ -224,13 +225,13 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
                         if (choosenLecturer.includes(item.id)) {
                           setChoosenLecturer(
                             choosenLecturer.filter(
-                              (lecturer) => lecturer !== item.id,
-                            ),
+                              (lecturer) => lecturer !== item.id
+                            )
                           )
                           setUser({
                             ...user,
                             lecturers: choosenLecturer.filter(
-                              (lecturer) => lecturer !== item.id,
+                              (lecturer) => lecturer !== item.id
                             ),
                           })
                         } else {

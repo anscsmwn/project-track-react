@@ -1,4 +1,4 @@
-import supabase from '../supabase/supabaseClient'
+import supabase, { supabaseAdmin } from '../supabase/supabaseClient'
 
 export const createUser = async (user) => {
   const { data: users, error: userError } = await supabase
@@ -37,10 +37,11 @@ export const createUser = async (user) => {
       )
     }
   }
+  const dataUser = await getUser(data.user.id)
   if (error) {
     throw error
   }
-  return data.user
+  return dataUser
 }
 
 export const updateUser = async (user) => {
@@ -128,4 +129,5 @@ export const getUser = async (userId) => {
 
 export const deleteUser = async (userId) => {
   await supabase.from('users').delete().eq('id', userId)
+  await supabaseAdmin.auth.admin.deleteUser(userId)
 }
