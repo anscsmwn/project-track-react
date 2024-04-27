@@ -6,12 +6,13 @@ import trashIcon from '../../assets/trash.svg'
 import linkIcon from '../../assets/link.svg'
 import searchIcon from '../../assets/search.svg'
 import { getUserId } from '../../utils/utils'
+import Pagination from '../../components/Pagination'
 
 const Students = () => {
   const [students, setStudents] = React.useState([])
   const [filteredStudents, setFilteredStudents] = React.useState([])
   const [currentPage, setCurrentPage] = React.useState(1)
-  const [itemsPerPage, setItemsPerPage] = React.useState(10)
+  const [itemsPerPage, setItemsPerPage] = React.useState(5)
 
   const getStudents = async () => {
     const lecturerId = await getUserId()
@@ -48,14 +49,10 @@ const Students = () => {
   const currentItems = filteredStudents.slice(indexOfFirstItem, indexOfLastItem)
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const changePage = (pageNumber) => setCurrentPage(pageNumber)
 
   // Create page numbers
   const totalPages = Math.ceil(filteredStudents.length / itemsPerPage)
-  const pageNumbers = []
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i)
-  }
 
   return (
     <Layout>
@@ -63,7 +60,7 @@ const Students = () => {
         <h1 className="font-semibold text-xl">
           Kelola Daftar Mahasiswa Bimbingan Anda
         </h1>
-        <p class="text-sm max-w-xl text-gray-500 my-2">
+        <p className="text-sm max-w-xl text-gray-500 my-2">
           Dengan mudah pantau kemajuan mahasiswa, tinjau proposal mereka.
         </p>
         <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full w-fit text-xs">
@@ -139,23 +136,11 @@ const Students = () => {
             </tbody>
           </table>
         </div>
-        <nav>
-          <ul className="flex justify-center gap-3">
-            {pageNumbers.map((number) => (
-              <li key={number}>
-                <a
-                  onClick={() => paginate(number)}
-                  href="#!"
-                  className={`text-black cursor-pointer ${
-                    currentPage == number ? 'font-bold' : ''
-                  }`}
-                >
-                  {number}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <Pagination
+          changePage={changePage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </div>
     </Layout>
   )

@@ -5,22 +5,27 @@ import Layout from '../../components/Layout'
 import pencilIcon from '../../assets/pencil.svg'
 import trashIcon from '../../assets/trash.svg'
 import { deleteUser, getUserList } from '../../services/Admin'
+import Pagination from '../../components/Pagination'
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [idUser, setIdUser] = React.useState(null)
   const [userList, setUserList] = React.useState([])
+  const [filteredUser, setFilteredUser] = React.useState([])
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [itemsPerPage, setItemsPerPage] = React.useState(5)
   React.useEffect(() => {
     const fetchUserList = async () => {
       const response = await getUserList()
-      const userData = response.map((item) => {
+      const userDatas = response.map((item) => {
         return {
           id: item.id,
           name: `${item.first_name} ${item.last_name}`,
           role: item.role,
         }
       })
-      setUserList(userData)
+      setUserList(userDatas)
+      setFilteredUser(userDatas)
     }
     fetchUserList()
   }, [])
@@ -33,6 +38,26 @@ const Dashboard = () => {
     } finally {
     }
   }
+
+  const handleFilterUser = (e) => {
+    const value = e.target.value
+    const newFilteredStudents = userList.filter((user) =>
+      user.name.toLowerCase().includes(value.toLowerCase())
+    )
+    setFilteredUser(newFilteredStudents)
+    setCurrentPage(1)
+  }
+
+  // Get current items
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredUser.slice(indexOfFirstItem, indexOfLastItem)
+
+  // Change page
+  const changePage = (pageNumber) => setCurrentPage(pageNumber)
+
+  // Create page numbers
+  const totalPages = Math.ceil(filteredUser.length / itemsPerPage)
   return (
     <Layout>
       <div className="border border-zinc-100 p-5 rounded-md w-full">
@@ -54,7 +79,7 @@ const Dashboard = () => {
         <div className="my-3 flex items-center gap-2 px-4 py-2 rounded-full w-fit text-xs">
           <img src={searchIcon} alt="search" className="w-4 h-4" />
           <input
-            onChange={() => {}}
+            onChange={handleFilterUser}
             type="text"
             className="p-2 outline-none"
             placeholder="Type to search..."
@@ -71,7 +96,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody className="text-sm">
-              {userList.map((item, index) => (
+              {currentItems.map((item, index) => (
                 <tr className="false" key={index}>
                   <td className="p-5 text-left">{index + 1}</td>
                   <td className="p-5 text-left font-semibold max-w-80">
@@ -112,6 +137,11 @@ const Dashboard = () => {
             </tbody>
           </table>
         </div>
+        <Pagination
+          changePage={changePage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </div>
       {isModalOpen && (
         <UserModal
