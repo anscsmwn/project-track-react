@@ -5,15 +5,17 @@ import arrowRight from '../assets/right-arrow.svg'
 const Pagination = ({ currentPage, changePage, totalPages }) => {
   const getVisiblePages = () => {
     // Start from at least page 1
+    const totalVisiblePage = 3
+    const offset = totalVisiblePage - 2
     let start = Math.max(currentPage - 1, 1)
 
     // Adjust start if we are close to the end
-    if (start > totalPages - 2) {
-      start = Math.max(totalPages - 2, 1)
+    if (start > totalPages - offset) {
+      start = Math.max(totalPages - offset, 1)
     }
 
     // Calculate the end page based on the start
-    let end = Math.min(start + 2, totalPages)
+    let end = Math.min(start + offset, totalPages)
 
     // Create an array of page numbers to display
     const pages = []
