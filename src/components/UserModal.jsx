@@ -73,7 +73,6 @@ const UserModal = ({ setIsModalOpen, setUserList, id }) => {
         )
       } else {
         const userResponse = await createUser(user)
-        console.log(userResponse)
         setUserList((prev) => [
           ...prev,
           {
