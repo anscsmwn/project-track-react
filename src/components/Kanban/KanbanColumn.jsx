@@ -1,12 +1,12 @@
-import React from "react";
-import KanbanCard from "./KanbanCard";
-import circleDot from "../../assets/circle-dot.svg";
-import circleProgress from "../../assets/circle-progress.svg";
-import circleDone from "../../assets/circle-done.svg";
-import plusIcon from "../../assets/plus.svg";
-import { createTask } from "../../services/KanbanBoard";
-import { updateProgress } from "../../services/Student";
-import { getUserId } from "../../utils/utils";
+import React from 'react'
+import KanbanCard from './KanbanCard'
+import circleDot from '../../assets/circle-dot.svg'
+import circleProgress from '../../assets/circle-progress.svg'
+import circleDone from '../../assets/circle-done.svg'
+import plusIcon from '../../assets/plus.svg'
+import { createTask } from '../../services/KanbanBoard'
+import { updateProgress } from '../../services/Student'
+import { getUserId } from '../../utils/utils'
 
 const KanbanColumn = ({
   board,
@@ -15,61 +15,61 @@ const KanbanColumn = ({
   initialTasks,
   setInitialTasks,
 }) => {
-  const [isAdding, setIsAdding] = React.useState(false);
-  const [newTaskTitle, setNewTaskTitle] = React.useState("");
+  const [isAdding, setIsAdding] = React.useState(false)
+  const [newTaskTitle, setNewTaskTitle] = React.useState('')
 
   const handleSaveNewTask = async () => {
-    if (newTaskTitle === "") {
-      setIsAdding(false);
-      return;
+    if (newTaskTitle === '') {
+      setIsAdding(false)
+      return
     }
     const newTask = {
       title: newTaskTitle,
-      description: "",
+      description: '',
       board_id: board.id,
       status,
-    };
+    }
 
     try {
       const newTasks = await createTask({
         title: newTaskTitle,
-        description: "",
+        description: '',
         board_id: board.id,
         status,
-      });
+      })
       // Create a new array with the new task added
-      const updatedTasks = [...initialTasks, newTasks[0]];
-      setInitialTasks(updatedTasks);
-      setIsAdding(false);
-      const doneTasks = updatedTasks.filter((task) => task.status === "Done");
+      const updatedTasks = [...initialTasks, newTasks[0]]
+      setInitialTasks(updatedTasks)
+      setIsAdding(false)
+      const doneTasks = updatedTasks.filter((task) => task.status === 'Done')
       const percentage = parseInt(
         (doneTasks.length / updatedTasks.length) * 100
-      );
-      const idStudent = await getUserId();
-      await updateProgress(idStudent, percentage);
+      )
+      const idStudent = await getUserId()
+      await updateProgress(idStudent, percentage)
     } catch (error) {}
-    setNewTaskTitle("");
-  };
+    setNewTaskTitle('')
+  }
 
   return (
     <div className="w-full max-w-72 min-w-max">
       <div className="text-slate-700 flex items-center justify-between gap-2 mb-2 text-sm">
         <div className="flex items-center gap-2">
-          {status === "To Do" && (
+          {status === 'To Do' && (
             <img
               src={circleDot}
               alt="circle dot"
               className="w-4 h-4 opacity-70"
             />
           )}
-          {status === "In Progress" && (
+          {status === 'In Progress' && (
             <img
               src={circleProgress}
               alt="circle progress"
               className="w-4 h-4 opacity-70"
             />
           )}
-          {status === "Done" && (
+          {status === 'Done' && (
             <img
               src={circleDone}
               alt="circle done"
@@ -91,15 +91,16 @@ const KanbanColumn = ({
         ))}
         {isAdding ? (
           <div className="p-2 my-1 w-full rounded-md flex justify-between shadow-sm border border-solid border-zinc-300 text-sm duration-500">
-            <input
-              type="text"
+            <textarea
+              cols={100}
+              rows={3}
               value={newTaskTitle}
               onChange={(event) => setNewTaskTitle(event.target.value)}
               onBlur={handleSaveNewTask}
               autoFocus
               onKeyUp={(event) => {
-                if (event.key === "Enter") {
-                  handleSaveNewTask();
+                if (event.key === 'Enter') {
+                  handleSaveNewTask()
                 }
               }}
               placeholder="Enter new task"
@@ -117,7 +118,7 @@ const KanbanColumn = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default KanbanColumn;
+export default KanbanColumn

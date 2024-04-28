@@ -38,7 +38,7 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
           }
         }
         return t
-      }),
+      })
     )
     await updateTask({ title: taskTitle, id: task.id })
     setIsEditing(false)
@@ -55,7 +55,9 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
         {isEditing ? (
           <div className="flex items-center gap-1">
             <img src={document} alt="document" className="w-4 h-4" />
-            <input
+            <textarea
+              cols={100}
+              rows={3}
               type="text"
               defaultValue={task.title}
               autoFocus
@@ -100,10 +102,10 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
               setInitialTasks(initialTasks.filter((t) => t.id !== task.id))
               await deleteTask(task.id)
               const doneTasks = updatedTasks.filter(
-                (task) => task.status === 'Done',
+                (task) => task.status === 'Done'
               )
               const percentage = parseInt(
-                (doneTasks.length / updatedTasks.length) * 100,
+                (doneTasks.length / updatedTasks.length) * 100
               )
               const idStudent = await getUserId()
               await updateProgress(idStudent, percentage)
