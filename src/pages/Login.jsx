@@ -78,7 +78,7 @@ const Login = () => {
         <p className="text-sm mt-1">
           Silakan masukkan email dan kata sandi Anda untuk masuk.
         </p>
-        <form onSubmit={onSubmit}>
+        <form id="form-login" onSubmit={onSubmit}>
           <div className="flex flex-col space-y-2 my-3">
             <label className="label" htmlFor="username">
               Email
