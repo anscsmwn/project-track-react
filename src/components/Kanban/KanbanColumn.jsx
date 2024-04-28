@@ -92,7 +92,7 @@ const KanbanColumn = ({
         {isAdding ? (
           <div className="p-2 my-1 w-full rounded-md flex justify-between shadow-sm border border-solid border-zinc-300 text-sm duration-500">
             <textarea
-              cols={100}
+              cols={10}
               rows={3}
               value={newTaskTitle}
               onChange={(event) => setNewTaskTitle(event.target.value)}
