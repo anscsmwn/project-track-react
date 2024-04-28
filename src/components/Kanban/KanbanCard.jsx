@@ -4,11 +4,13 @@ import document from '../../assets/document.svg'
 import { deleteTask, updateTask } from '../../services/KanbanBoard'
 import { updateProgress } from '../../services/Student'
 import { getUserId } from '../../utils/utils'
+import { useParams } from 'react-router-dom'
 
 const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
   const [isEditing, setIsEditing] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [taskTitle, setTaskTitle] = React.useState(task.title)
+  const { nim } = useParams()
   const handleStatusChange = async (status, id) => {
     const updatedTasks = initialTasks.map((task) => {
       if (task.id === id) {
@@ -25,7 +27,10 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
 
     const doneTasks = updatedTasks.filter((task) => task.status === 'Done')
     const percentage = parseInt((doneTasks.length / updatedTasks.length) * 100)
-    const idStudent = await getUserId()
+    let idStudent = await getUserId()
+    if (nim) {
+      idStudent = nim
+    }
     await updateProgress(idStudent, percentage)
   }
   const handleChangeTitle = async () => {
@@ -107,7 +112,10 @@ const KanbanCard = ({ task, initialTasks, setInitialTasks }) => {
               const percentage = parseInt(
                 (doneTasks.length / updatedTasks.length) * 100
               )
-              const idStudent = await getUserId()
+              let idStudent = await getUserId()
+              if (nim) {
+                idStudent = nim
+              }
               await updateProgress(idStudent, percentage)
             }}
           >

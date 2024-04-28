@@ -7,6 +7,7 @@ import plusIcon from '../../assets/plus.svg'
 import { createTask } from '../../services/KanbanBoard'
 import { updateProgress } from '../../services/Student'
 import { getUserId } from '../../utils/utils'
+import { useParams } from 'react-router-dom'
 
 const KanbanColumn = ({
   board,
@@ -15,6 +16,7 @@ const KanbanColumn = ({
   initialTasks,
   setInitialTasks,
 }) => {
+  const { nim } = useParams()
   const [isAdding, setIsAdding] = React.useState(false)
   const [newTaskTitle, setNewTaskTitle] = React.useState('')
 
@@ -45,7 +47,10 @@ const KanbanColumn = ({
       const percentage = parseInt(
         (doneTasks.length / updatedTasks.length) * 100
       )
-      const idStudent = await getUserId()
+      let idStudent = await getUserId()
+      if (nim) {
+        idStudent = nim
+      }
       await updateProgress(idStudent, percentage)
     } catch (error) {}
     setNewTaskTitle('')
