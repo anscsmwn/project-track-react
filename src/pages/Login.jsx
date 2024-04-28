@@ -4,14 +4,31 @@ import supabase from '../supabase/supabaseClient'
 import { useNavigate } from 'react-router-dom'
 import Toast from '../components/Toast'
 const Login = () => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const roleParams = urlParams.get('role')
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
   const onSubmit = async (e) => {
     e.preventDefault()
-    const username = e.target.username.value
-    const password = e.target.password.value
-
+    let username = e.target.username.value
+    let password = e.target.password.value
+    switch (roleParams) {
+      case 'admin':
+        username = 'admin@unhas.ac.id'
+        password = 'admin'
+        break
+      case 'student':
+        username = 'annas@unhas.ac.id'
+        password = 'student'
+        break
+      case 'lecturer':
+        username = 'ais@unhas.ac.id'
+        password = 'lecturer'
+        break
+      default:
+        break
+    }
     try {
       setIsLoading(true)
       setIsError(false)
