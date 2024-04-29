@@ -115,6 +115,7 @@ const Dashboard = () => {
                   <td className="p-5 text-left">
                     <div className="flex items-center justify-center gap-2">
                       <button
+                        id={`user-${item.id}`}
                         onClick={() => {
                           setIsModalOpen(true)
                           setIdUser(item.id)
